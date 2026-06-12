@@ -27,6 +27,35 @@ export interface AuthResponse {
   user?: null | User;
 }
 
+export interface UserFull {
+  id?: string;
+  /** @nullable */
+  userName?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phoneNumber?: string | null;
+  roles?: string[];
+}
+
+export interface UserUpdate {
+  /** @maxLength 100 */
+  userName: string;
+  email: string;
+  /** @nullable */
+  phoneNumber?: string | null;
+}
+
+export interface UserChangePassword {
+  currentPassword: string;
+  /** @minLength 8 */
+  newPassword: string;
+}
+
+export interface UserRoleUpdate {
+  roles: string[];
+}
+
 export interface RegisterInput {
   /** @maxLength 100 */
   userName: string;
@@ -98,6 +127,24 @@ export interface Order {
 }
 
 export interface OrderItemInput {
+  /** @minimum 1 */
+  quantity: number;
+  /** @minimum 0 */
+  unitSalePrice: number;
+  /** @minimum 0 */
+  unitCostPrice: number;
+  /** @minimum 0 */
+  unitDiscount?: number;
+  /**
+     * @maxLength 200
+     * @nullable
+     */
+  notes?: string | null;
+  productId: number;
+}
+
+export interface OrderItemUpdate {
+  id: number;
   /** @minimum 1 */
   quantity: number;
   /** @minimum 0 */

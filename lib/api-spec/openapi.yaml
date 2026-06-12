@@ -14,6 +14,8 @@ tags:
     description: Authentication
   - name: categories
     description: Menu categories
+  - name: orderItems
+    description: Order items management
   - name: orders
     description: Orders management
   - name: paymentMethods
@@ -26,6 +28,8 @@ tags:
     description: Products management
   - name: categoryPrintStations
     description: Category-PrintStation links
+  - name: users
+    description: Users management
 paths:
   /healthz:
     get:
@@ -153,6 +157,110 @@ paths:
       responses:
         "200":
           description: OK
+
+  /api/OrderItems:
+    get:
+      operationId: getOrderItems
+      tags: [orderItems]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderItem"
+
+  /api/OrderItems/{id}:
+    get:
+      operationId: getOrderItemById
+      tags: [orderItems]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderItem"
+    put:
+      operationId: updateOrderItem
+      tags: [orderItems]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItemUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteOrderItem
+      tags: [orderItems]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/OrderItems/order/{orderId}:
+    get:
+      operationId: getOrderItemsByOrder
+      tags: [orderItems]
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderItem"
+    post:
+      operationId: addOrderItem
+      tags: [orderItems]
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItemInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderItem"
 
   /api/Orders:
     get:
@@ -617,6 +725,122 @@ paths:
                 items:
                   $ref: "#/components/schemas/PrintStation"
 
+  /api/Users:
+    get:
+      operationId: getUsers
+      tags: [users]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserFull"
+
+  /api/Users/roles:
+    get:
+      operationId: getRoles
+      tags: [users]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /api/Users/{id}:
+    get:
+      operationId: getUserById
+      tags: [users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFull"
+    put:
+      operationId: updateUser
+      tags: [users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteUser
+      tags: [users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /api/Users/{id}/change-password:
+    post:
+      operationId: changeUserPassword
+      tags: [users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserChangePassword"
+      responses:
+        "200":
+          description: OK
+
+  /api/Users/{id}/roles:
+    post:
+      operationId: updateUserRoles
+      tags: [users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRoleUpdate"
+      responses:
+        "200":
+          description: OK
+
 components:
   schemas:
     HealthStatus:
@@ -652,6 +876,53 @@ components:
           type: ["string", "null"]
         email:
           type: ["string", "null"]
+
+    UserFull:
+      type: object
+      properties:
+        id:
+          type: string
+        userName:
+          type: ["string", "null"]
+        email:
+          type: ["string", "null"]
+        phoneNumber:
+          type: ["string", "null"]
+        roles:
+          type: array
+          items:
+            type: string
+
+    UserUpdate:
+      type: object
+      required: [userName, email]
+      properties:
+        userName:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+        phoneNumber:
+          type: ["string", "null"]
+
+    UserChangePassword:
+      type: object
+      required: [currentPassword, newPassword]
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+          minLength: 8
+
+    UserRoleUpdate:
+      type: object
+      required: [roles]
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
 
     RegisterInput:
       type: object
@@ -768,6 +1039,30 @@ components:
       type: object
       required: [quantity, unitSalePrice, unitCostPrice, productId]
       properties:
+        quantity:
+          type: integer
+          minimum: 1
+        unitSalePrice:
+          type: number
+          minimum: 0
+        unitCostPrice:
+          type: number
+          minimum: 0
+        unitDiscount:
+          type: number
+          minimum: 0
+        notes:
+          type: ["string", "null"]
+          maxLength: 200
+        productId:
+          type: integer
+
+    OrderItemUpdate:
+      type: object
+      required: [id, quantity, unitSalePrice, unitCostPrice, productId]
+      properties:
+        id:
+          type: integer
         quantity:
           type: integer
           minimum: 1

@@ -11,7 +11,9 @@ import {
   Computer,
   Settings,
   LogOut,
-  ChefHat
+  ChefHat,
+  MonitorSmartphone,
+  Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -25,12 +27,14 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/pos", label: "Point of Sale", icon: MonitorSmartphone },
     { href: "/orders", label: "Orders", icon: Receipt },
     { href: "/products", label: "Products", icon: Package },
     { href: "/categories", label: "Categories", icon: Tags },
     { href: "/payment-methods", label: "Payment Methods", icon: CreditCard },
     { href: "/print-stations", label: "Print Stations", icon: Computer },
     { href: "/printers", label: "Printers", icon: Printer },
+    { href: "/users", label: "Users", icon: Users },
     { href: "/settings/category-stations", label: "Category Stations", icon: Settings },
   ];
 

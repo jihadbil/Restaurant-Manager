@@ -110,6 +110,127 @@ export const DeleteCategoryParams = zod.object({
 })
 
 
+export const GetOrderItemsResponseItem = zod.object({
+  "id": zod.number().optional(),
+  "quantity": zod.number().optional(),
+  "unitSalePrice": zod.number().optional(),
+  "unitCostPrice": zod.number().optional(),
+  "unitDiscount": zod.number().optional(),
+  "total": zod.number().optional(),
+  "notes": zod.string().nullish(),
+  "orderId": zod.number().optional(),
+  "productId": zod.number().optional(),
+  "productName": zod.string().nullish()
+})
+export const GetOrderItemsResponse = zod.array(GetOrderItemsResponseItem)
+
+
+export const GetOrderItemByIdParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetOrderItemByIdResponse = zod.object({
+  "id": zod.number().optional(),
+  "quantity": zod.number().optional(),
+  "unitSalePrice": zod.number().optional(),
+  "unitCostPrice": zod.number().optional(),
+  "unitDiscount": zod.number().optional(),
+  "total": zod.number().optional(),
+  "notes": zod.string().nullish(),
+  "orderId": zod.number().optional(),
+  "productId": zod.number().optional(),
+  "productName": zod.string().nullish()
+})
+
+
+export const UpdateOrderItemParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+export const updateOrderItemBodyUnitSalePriceMin = 0;
+
+export const updateOrderItemBodyUnitCostPriceMin = 0;
+
+export const updateOrderItemBodyUnitDiscountMin = 0;
+
+export const updateOrderItemBodyNotesMax = 200;
+
+
+
+export const UpdateOrderItemBody = zod.object({
+  "id": zod.number(),
+  "quantity": zod.number().min(1),
+  "unitSalePrice": zod.number().min(updateOrderItemBodyUnitSalePriceMin),
+  "unitCostPrice": zod.number().min(updateOrderItemBodyUnitCostPriceMin),
+  "unitDiscount": zod.number().min(updateOrderItemBodyUnitDiscountMin).optional(),
+  "notes": zod.string().max(updateOrderItemBodyNotesMax).nullish(),
+  "productId": zod.number()
+})
+
+
+export const DeleteOrderItemParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+export const GetOrderItemsByOrderParams = zod.object({
+  "orderId": zod.coerce.number()
+})
+
+export const GetOrderItemsByOrderResponseItem = zod.object({
+  "id": zod.number().optional(),
+  "quantity": zod.number().optional(),
+  "unitSalePrice": zod.number().optional(),
+  "unitCostPrice": zod.number().optional(),
+  "unitDiscount": zod.number().optional(),
+  "total": zod.number().optional(),
+  "notes": zod.string().nullish(),
+  "orderId": zod.number().optional(),
+  "productId": zod.number().optional(),
+  "productName": zod.string().nullish()
+})
+export const GetOrderItemsByOrderResponse = zod.array(GetOrderItemsByOrderResponseItem)
+
+
+export const AddOrderItemParams = zod.object({
+  "orderId": zod.coerce.number()
+})
+
+
+export const addOrderItemBodyUnitSalePriceMin = 0;
+
+export const addOrderItemBodyUnitCostPriceMin = 0;
+
+export const addOrderItemBodyUnitDiscountMin = 0;
+
+export const addOrderItemBodyNotesMax = 200;
+
+
+
+export const AddOrderItemBody = zod.object({
+  "quantity": zod.number().min(1),
+  "unitSalePrice": zod.number().min(addOrderItemBodyUnitSalePriceMin),
+  "unitCostPrice": zod.number().min(addOrderItemBodyUnitCostPriceMin),
+  "unitDiscount": zod.number().min(addOrderItemBodyUnitDiscountMin).optional(),
+  "notes": zod.string().max(addOrderItemBodyNotesMax).nullish(),
+  "productId": zod.number()
+})
+
+export const AddOrderItemResponse = zod.object({
+  "id": zod.number().optional(),
+  "quantity": zod.number().optional(),
+  "unitSalePrice": zod.number().optional(),
+  "unitCostPrice": zod.number().optional(),
+  "unitDiscount": zod.number().optional(),
+  "total": zod.number().optional(),
+  "notes": zod.string().nullish(),
+  "orderId": zod.number().optional(),
+  "productId": zod.number().optional(),
+  "productName": zod.string().nullish()
+})
+
+
 export const GetOrdersResponseItem = zod.object({
   "id": zod.number().optional(),
   "orderNumber": zod.number().optional(),
@@ -577,5 +698,75 @@ export const GetPrintStationsByCategoryResponseItem = zod.object({
   "name": zod.string().optional()
 })
 export const GetPrintStationsByCategoryResponse = zod.array(GetPrintStationsByCategoryResponseItem)
+
+
+export const GetUsersResponseItem = zod.object({
+  "id": zod.string().optional(),
+  "userName": zod.string().nullish(),
+  "email": zod.string().nullish(),
+  "phoneNumber": zod.string().nullish(),
+  "roles": zod.array(zod.string()).optional()
+})
+export const GetUsersResponse = zod.array(GetUsersResponseItem)
+
+
+export const GetRolesResponseItem = zod.string()
+export const GetRolesResponse = zod.array(GetRolesResponseItem)
+
+
+export const GetUserByIdParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const GetUserByIdResponse = zod.object({
+  "id": zod.string().optional(),
+  "userName": zod.string().nullish(),
+  "email": zod.string().nullish(),
+  "phoneNumber": zod.string().nullish(),
+  "roles": zod.array(zod.string()).optional()
+})
+
+
+export const UpdateUserParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const updateUserBodyUserNameMax = 100;
+
+
+
+export const UpdateUserBody = zod.object({
+  "userName": zod.string().max(updateUserBodyUserNameMax),
+  "email": zod.string(),
+  "phoneNumber": zod.string().nullish()
+})
+
+
+export const DeleteUserParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+
+export const ChangeUserPasswordParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const changeUserPasswordBodyNewPasswordMin = 8;
+
+
+
+export const ChangeUserPasswordBody = zod.object({
+  "currentPassword": zod.string(),
+  "newPassword": zod.string().min(changeUserPasswordBodyNewPasswordMin)
+})
+
+
+export const UpdateUserRolesParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const UpdateUserRolesBody = zod.object({
+  "roles": zod.array(zod.string())
+})
 
 

@@ -18,6 +18,8 @@ import Orders from "@/pages/orders";
 import OrderNew from "@/pages/order-new";
 import OrderDetail from "@/pages/order-detail";
 import CategoryStations from "@/pages/category-stations";
+import UsersPage from "@/pages/users";
+import PosPage from "@/pages/pos";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,6 +57,7 @@ function Router() {
       </Route>
       
       <Route path="/" component={() => <ProtectedRoute component={Dashboard} />} />
+      <Route path="/pos" component={() => <ProtectedRoute component={PosPage} />} />
       <Route path="/orders" component={() => <ProtectedRoute component={Orders} />} />
       <Route path="/orders/new" component={() => <ProtectedRoute component={OrderNew} />} />
       <Route path="/orders/:id" component={() => <ProtectedRoute component={OrderDetail} />} />
@@ -63,6 +66,7 @@ function Router() {
       <Route path="/payment-methods" component={() => <ProtectedRoute component={PaymentMethods} />} />
       <Route path="/print-stations" component={() => <ProtectedRoute component={PrintStations} />} />
       <Route path="/printers" component={() => <ProtectedRoute component={Printers} />} />
+      <Route path="/users" component={() => <ProtectedRoute component={UsersPage} />} />
       <Route path="/settings/category-stations" component={() => <ProtectedRoute component={CategoryStations} />} />
       
       <Route>
