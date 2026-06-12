@@ -2,21 +2,36 @@ openapi: 3.1.0
 info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: 1.0.0
+  description: Restaurant Management API
 servers:
-  - url: /api
-    description: Base API path
+  - url: /
+    description: API base
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
+  - name: categories
+    description: Menu categories
+  - name: orders
+    description: Orders management
+  - name: paymentMethods
+    description: Payment methods
+  - name: printers
+    description: Printers management
+  - name: printStations
+    description: Print stations
+  - name: products
+    description: Products management
+  - name: categoryPrintStations
+    description: Category-PrintStation links
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +39,984 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /api/Auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /api/Auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /api/Categories:
+    get:
+      operationId: getCategories
+      tags: [categories]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+    post:
+      operationId: createCategory
+      tags: [categories]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+
+  /api/Categories/{id}:
+    get:
+      operationId: getCategoryById
+      tags: [categories]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+    put:
+      operationId: updateCategory
+      tags: [categories]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteCategory
+      tags: [categories]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/Orders:
+    get:
+      operationId: getOrders
+      tags: [orders]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+    post:
+      operationId: createOrder
+      tags: [orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /api/Orders/{id}:
+    get:
+      operationId: getOrderById
+      tags: [orders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+    put:
+      operationId: updateOrder
+      tags: [orders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteOrder
+      tags: [orders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/PaymentMethods:
+    get:
+      operationId: getPaymentMethods
+      tags: [paymentMethods]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentMethod"
+    post:
+      operationId: createPaymentMethod
+      tags: [paymentMethods]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentMethodInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentMethod"
+
+  /api/PaymentMethods/{id}:
+    get:
+      operationId: getPaymentMethodById
+      tags: [paymentMethods]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentMethod"
+    put:
+      operationId: updatePaymentMethod
+      tags: [paymentMethods]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentMethodUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deletePaymentMethod
+      tags: [paymentMethods]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/Printers:
+    get:
+      operationId: getPrinters
+      tags: [printers]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Printer"
+    post:
+      operationId: createPrinter
+      tags: [printers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrinterInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Printer"
+
+  /api/Printers/{id}:
+    get:
+      operationId: getPrinterById
+      tags: [printers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Printer"
+    put:
+      operationId: updatePrinter
+      tags: [printers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrinterUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deletePrinter
+      tags: [printers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/PrintStations:
+    get:
+      operationId: getPrintStations
+      tags: [printStations]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PrintStation"
+    post:
+      operationId: createPrintStation
+      tags: [printStations]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrintStationInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrintStation"
+
+  /api/PrintStations/{id}:
+    get:
+      operationId: getPrintStationById
+      tags: [printStations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrintStation"
+    put:
+      operationId: updatePrintStation
+      tags: [printStations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrintStationUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deletePrintStation
+      tags: [printStations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/Products:
+    get:
+      operationId: getProducts
+      tags: [products]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      operationId: createProduct
+      tags: [products]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /api/Products/{id}:
+    get:
+      operationId: getProductById
+      tags: [products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    put:
+      operationId: updateProduct
+      tags: [products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdate"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteProduct
+      tags: [products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/CategoryPrintStations/link:
+    post:
+      operationId: linkCategoryPrintStation
+      tags: [categoryPrintStations]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryPrintStationLink"
+      responses:
+        "200":
+          description: OK
+
+  /api/CategoryPrintStations/unlink/{categoryId}/{printStationId}:
+    delete:
+      operationId: unlinkCategoryPrintStation
+      tags: [categoryPrintStations]
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: printStationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /api/CategoryPrintStations/station/{stationId}:
+    get:
+      operationId: getCategoriesByStation
+      tags: [categoryPrintStations]
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+
+  /api/CategoryPrintStations/category/{categoryId}:
+    get:
+      operationId: getPrintStationsByCategory
+      tags: [categoryPrintStations]
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PrintStation"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    AuthResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        token:
+          type: ["string", "null"]
+        expiresAt:
+          type: ["string", "null"]
+          format: date-time
+        user:
+          oneOf:
+            - type: "null"
+            - $ref: "#/components/schemas/User"
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        userName:
+          type: ["string", "null"]
+        email:
+          type: ["string", "null"]
+
+    RegisterInput:
+      type: object
+      required: [userName, email, password]
+      properties:
+        userName:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+        password:
+          type: string
+          minLength: 8
+        phoneNumber:
+          type: ["string", "null"]
+
+    LoginInput:
+      type: object
+      required: [userName, password]
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    CategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+
+    CategoryUpdate:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          maxLength: 100
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        orderNumber:
+          type: integer
+        total:
+          type: number
+        cost:
+          type: number
+        profit:
+          type: number
+        discount:
+          type: number
+        date:
+          type: string
+          format: date-time
+        orderStatus:
+          type: ["integer", "null"]
+        orderType:
+          type: ["integer", "null"]
+        notes:
+          type: ["string", "null"]
+        paymentMethodId:
+          type: integer
+        paymentMethodName:
+          type: ["string", "null"]
+        userId:
+          type: ["string", "null"]
+        userName:
+          type: ["string", "null"]
+        orderItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        quantity:
+          type: integer
+        unitSalePrice:
+          type: number
+        unitCostPrice:
+          type: number
+        unitDiscount:
+          type: number
+        total:
+          type: number
+        notes:
+          type: ["string", "null"]
+        orderId:
+          type: integer
+        productId:
+          type: integer
+        productName:
+          type: ["string", "null"]
+
+    OrderItemInput:
+      type: object
+      required: [quantity, unitSalePrice, unitCostPrice, productId]
+      properties:
+        quantity:
+          type: integer
+          minimum: 1
+        unitSalePrice:
+          type: number
+          minimum: 0
+        unitCostPrice:
+          type: number
+          minimum: 0
+        unitDiscount:
+          type: number
+          minimum: 0
+        notes:
+          type: ["string", "null"]
+          maxLength: 200
+        productId:
+          type: integer
+
+    OrderInput:
+      type: object
+      required: [orderNumber, paymentMethodId, userId, orderItems]
+      properties:
+        orderNumber:
+          type: integer
+          minimum: 1
+        discount:
+          type: number
+          minimum: 0
+        orderStatus:
+          type: ["integer", "null"]
+        orderType:
+          type: ["integer", "null"]
+        notes:
+          type: ["string", "null"]
+          maxLength: 500
+        paymentMethodId:
+          type: integer
+        userId:
+          type: string
+        orderItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/OrderItemInput"
+
+    OrderUpdate:
+      type: object
+      required: [id, paymentMethodId]
+      properties:
+        id:
+          type: integer
+        orderStatus:
+          type: ["integer", "null"]
+        orderType:
+          type: ["integer", "null"]
+        notes:
+          type: ["string", "null"]
+          maxLength: 500
+        paymentMethodId:
+          type: integer
+        discount:
+          type: number
+          minimum: 0
+
+    PaymentMethod:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        isTaxFree:
+          type: boolean
+
+    PaymentMethodInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        isTaxFree:
+          type: boolean
+
+    PaymentMethodUpdate:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          maxLength: 50
+        isTaxFree:
+          type: boolean
+
+    Printer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        printerName:
+          type: string
+        printerType:
+          type: integer
+        printStationId:
+          type: integer
+        printStationName:
+          type: ["string", "null"]
+
+    PrinterInput:
+      type: object
+      required: [name, printerName, printerType, printStationId]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        printerName:
+          type: string
+          maxLength: 150
+        printerType:
+          type: integer
+        printStationId:
+          type: integer
+
+    PrinterUpdate:
+      type: object
+      required: [id, name, printerName, printerType, printStationId]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          maxLength: 100
+        printerName:
+          type: string
+          maxLength: 150
+        printerType:
+          type: integer
+        printStationId:
+          type: integer
+
+    PrintStation:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    PrintStationInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+
+    PrintStationUpdate:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          maxLength: 100
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        barCode:
+          type: ["string", "null"]
+        name:
+          type: string
+        description:
+          type: ["string", "null"]
+        costPrice:
+          type: number
+        salePrice:
+          type: number
+        imageUrl:
+          type: ["string", "null"]
+        categoryId:
+          type: integer
+        categoryName:
+          type: ["string", "null"]
+
+    ProductInput:
+      type: object
+      required: [name, costPrice, salePrice, categoryId]
+      properties:
+        barCode:
+          type: ["string", "null"]
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: ["string", "null"]
+          maxLength: 500
+        costPrice:
+          type: number
+          minimum: 0.01
+        salePrice:
+          type: number
+          minimum: 0.01
+        imageUrl:
+          type: ["string", "null"]
+          maxLength: 500
+        categoryId:
+          type: integer
+
+    ProductUpdate:
+      type: object
+      required: [id, name, costPrice, salePrice, categoryId]
+      properties:
+        id:
+          type: integer
+        barCode:
+          type: ["string", "null"]
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: ["string", "null"]
+          maxLength: 500
+        costPrice:
+          type: number
+          minimum: 0.01
+        salePrice:
+          type: number
+          minimum: 0.01
+        imageUrl:
+          type: ["string", "null"]
+          maxLength: 500
+        categoryId:
+          type: integer
+
+    CategoryPrintStationLink:
+      type: object
+      required: [categoryId, printStationId]
+      properties:
+        categoryId:
+          type: integer
+        printStationId:
+          type: integer
