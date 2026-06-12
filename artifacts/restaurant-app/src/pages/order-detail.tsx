@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Loader2, FileText, CheckCircle2, Clock, XCircle } from "lucide-react";
+import { ArrowLeft, Loader2, FileText, CheckCircle2, Clock, XCircle, Printer } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { printReceipt } from "@/lib/print-receipt";
 
 export default function OrderDetail() {
   const [, params] = useRoute("/orders/:id");
@@ -98,8 +99,11 @@ export default function OrderDetail() {
               <XCircle className="mr-2 h-4 w-4" /> Cancel
             </Button>
           )}
-          <Button variant="outline">
-            <FileText className="mr-2 h-4 w-4" /> Print Receipt
+          <Button variant="outline" onClick={() => printReceipt(order, 'customer')}>
+            <FileText className="mr-2 h-4 w-4" /> Customer Receipt
+          </Button>
+          <Button variant="outline" onClick={() => printReceipt(order, 'kitchen')}>
+            <Printer className="mr-2 h-4 w-4" /> Kitchen Ticket
           </Button>
         </div>
       </div>

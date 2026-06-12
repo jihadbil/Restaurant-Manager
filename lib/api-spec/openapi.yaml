@@ -30,6 +30,8 @@ tags:
     description: Category-PrintStation links
   - name: users
     description: Users management
+  - name: reports
+    description: Reports and statistics
 paths:
   /healthz:
     get:
@@ -725,6 +727,176 @@ paths:
                 items:
                   $ref: "#/components/schemas/PrintStation"
 
+  /api/Reports/comprehensive:
+    get:
+      operationId: getComprehensiveReport
+      tags: [reports]
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComprehensiveReport"
+
+  /api/Reports/best-selling-products:
+    get:
+      operationId: getBestSellingProducts
+      tags: [reports]
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: ["integer", "null"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductReport"
+
+  /api/Reports/best-selling-categories:
+    get:
+      operationId: getBestSellingCategories
+      tags: [reports]
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: ["integer", "null"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoryReport"
+
+  /api/Reports/daily-sales:
+    get:
+      operationId: getDailySales
+      tags: [reports]
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DailySalesReport"
+
+  /api/Reports/payment-methods:
+    get:
+      operationId: getPaymentMethodsReport
+      tags: [reports]
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentMethodSalesReport"
+
+  /api/Reports/cancelled-orders:
+    get:
+      operationId: getCancelledOrders
+      tags: [reports]
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CancelledOrder"
+
   /api/Users:
     get:
       operationId: getUsers
@@ -1315,3 +1487,143 @@ components:
           type: integer
         printStationId:
           type: integer
+
+    ComprehensiveReport:
+      type: object
+      properties:
+        totalSales:
+          type: number
+        totalCost:
+          type: number
+        totalProfit:
+          type: number
+        totalDiscount:
+          type: number
+        totalOrdersCount:
+          type: integer
+        averageOrderValue:
+          type: number
+        cancelledOrdersCount:
+          type: integer
+        dailySales:
+          type: array
+          items:
+            $ref: "#/components/schemas/DailySalesReport"
+        salesByPaymentMethod:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentMethodSalesReport"
+        bestSellingProducts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductReport"
+        bestSellingCategories:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryReport"
+        orderStatusSummary:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderStatusCount"
+        orderTypeSummary:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderTypeCount"
+
+    DailySalesReport:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        totalSales:
+          type: number
+        totalCost:
+          type: number
+        totalProfit:
+          type: number
+        totalOrders:
+          type: integer
+
+    ProductReport:
+      type: object
+      properties:
+        productId:
+          type: integer
+        name:
+          type: string
+        barCode:
+          type: ["string", "null"]
+        quantitySold:
+          type: integer
+        totalRevenue:
+          type: number
+        totalCost:
+          type: number
+        totalProfit:
+          type: number
+
+    CategoryReport:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+        name:
+          type: string
+        quantitySold:
+          type: integer
+        totalRevenue:
+          type: number
+        totalCost:
+          type: number
+        totalProfit:
+          type: number
+
+    PaymentMethodSalesReport:
+      type: object
+      properties:
+        paymentMethodId:
+          type: integer
+        paymentMethodName:
+          type: string
+        totalSales:
+          type: number
+        totalOrders:
+          type: integer
+
+    CancelledOrder:
+      type: object
+      properties:
+        orderId:
+          type: integer
+        orderNumber:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        total:
+          type: number
+        notes:
+          type: ["string", "null"]
+        userName:
+          type: ["string", "null"]
+
+    OrderStatusCount:
+      type: object
+      properties:
+        status:
+          type: string
+        count:
+          type: integer
+        totalSales:
+          type: number
+
+    OrderTypeCount:
+      type: object
+      properties:
+        type:
+          type: string
+        count:
+          type: integer
+        totalSales:
+          type: number

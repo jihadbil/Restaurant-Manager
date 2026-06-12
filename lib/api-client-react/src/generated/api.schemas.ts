@@ -333,3 +333,151 @@ export interface CategoryPrintStationLink {
   printStationId: number;
 }
 
+export interface DailySalesReport {
+  date?: string;
+  totalSales?: number;
+  totalCost?: number;
+  totalProfit?: number;
+  totalOrders?: number;
+}
+
+export interface PaymentMethodSalesReport {
+  paymentMethodId?: number;
+  paymentMethodName?: string;
+  totalSales?: number;
+  totalOrders?: number;
+}
+
+export interface ProductReport {
+  productId?: number;
+  name?: string;
+  /** @nullable */
+  barCode?: string | null;
+  quantitySold?: number;
+  totalRevenue?: number;
+  totalCost?: number;
+  totalProfit?: number;
+}
+
+export interface CategoryReport {
+  categoryId?: number;
+  name?: string;
+  quantitySold?: number;
+  totalRevenue?: number;
+  totalCost?: number;
+  totalProfit?: number;
+}
+
+export interface OrderStatusCount {
+  status?: string;
+  count?: number;
+  totalSales?: number;
+}
+
+export interface OrderTypeCount {
+  type?: string;
+  count?: number;
+  totalSales?: number;
+}
+
+export interface ComprehensiveReport {
+  totalSales?: number;
+  totalCost?: number;
+  totalProfit?: number;
+  totalDiscount?: number;
+  totalOrdersCount?: number;
+  averageOrderValue?: number;
+  cancelledOrdersCount?: number;
+  dailySales?: DailySalesReport[];
+  salesByPaymentMethod?: PaymentMethodSalesReport[];
+  bestSellingProducts?: ProductReport[];
+  bestSellingCategories?: CategoryReport[];
+  orderStatusSummary?: OrderStatusCount[];
+  orderTypeSummary?: OrderTypeCount[];
+}
+
+export interface CancelledOrder {
+  orderId?: number;
+  orderNumber?: number;
+  date?: string;
+  total?: number;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  userName?: string | null;
+}
+
+export type GetComprehensiveReportParams = {
+/**
+ * @nullable
+ */
+startDate?: string | null;
+/**
+ * @nullable
+ */
+endDate?: string | null;
+};
+
+export type GetBestSellingProductsParams = {
+/**
+ * @nullable
+ */
+startDate?: string | null;
+/**
+ * @nullable
+ */
+endDate?: string | null;
+/**
+ * @nullable
+ */
+limit?: number | null;
+};
+
+export type GetBestSellingCategoriesParams = {
+/**
+ * @nullable
+ */
+startDate?: string | null;
+/**
+ * @nullable
+ */
+endDate?: string | null;
+/**
+ * @nullable
+ */
+limit?: number | null;
+};
+
+export type GetDailySalesParams = {
+/**
+ * @nullable
+ */
+startDate?: string | null;
+/**
+ * @nullable
+ */
+endDate?: string | null;
+};
+
+export type GetPaymentMethodsReportParams = {
+/**
+ * @nullable
+ */
+startDate?: string | null;
+/**
+ * @nullable
+ */
+endDate?: string | null;
+};
+
+export type GetCancelledOrdersParams = {
+/**
+ * @nullable
+ */
+startDate?: string | null;
+/**
+ * @nullable
+ */
+endDate?: string | null;
+};
+

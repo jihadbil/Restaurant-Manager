@@ -16,6 +16,7 @@ import { Search, Plus, Minus, Trash2, ShoppingCart, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { printReceipt } from "@/lib/print-receipt";
 
 type CartItem = {
   productId: number;
@@ -43,6 +44,7 @@ export default function PosPage() {
   const [orderType, setOrderType] = useState("DineIn");
   const [paymentMethodId, setPaymentMethodId] = useState<string>("");
   const [globalDiscount, setGlobalDiscount] = useState<string>("0");
+  const [lastCreatedOrder, setLastCreatedOrder] = useState<any>(null);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -130,11 +132,12 @@ export default function PosPage() {
         },
       },
       {
-        onSuccess: () => {
+        onSuccess: (data: any) => {
           toast({ title: "Order placed successfully!" });
           queryClient.invalidateQueries({ queryKey: getGetOrdersQueryKey() });
           setCart([]);
           setOrderNumber((prev) => (parseInt(prev, 10) + 1).toString());
+          setLastCreatedOrder(data);
         },
         onError: () => {
           toast({ title: "Failed to place order", variant: "destructive" });
@@ -343,6 +346,15 @@ export default function PosPage() {
                 </>
               )}
             </Button>
+            {lastCreatedOrder && (
+              <Button 
+                variant="outline"
+                className="w-full h-10" 
+                onClick={() => printReceipt(lastCreatedOrder, 'customer')}
+              >
+                Print Customer Receipt
+              </Button>
+            )}
           </div>
         </div>
       </div>

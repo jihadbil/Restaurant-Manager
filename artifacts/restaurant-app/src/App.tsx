@@ -20,6 +20,7 @@ import OrderDetail from "@/pages/order-detail";
 import CategoryStations from "@/pages/category-stations";
 import UsersPage from "@/pages/users";
 import PosPage from "@/pages/pos";
+import Reports from "@/pages/reports";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -67,6 +68,7 @@ function Router() {
       <Route path="/print-stations" component={() => <ProtectedRoute component={PrintStations} />} />
       <Route path="/printers" component={() => <ProtectedRoute component={Printers} />} />
       <Route path="/users" component={() => <ProtectedRoute component={UsersPage} />} />
+      <Route path="/reports" component={() => <ProtectedRoute component={Reports} />} />
       <Route path="/settings/category-stations" component={() => <ProtectedRoute component={CategoryStations} />} />
       
       <Route>

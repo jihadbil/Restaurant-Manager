@@ -13,7 +13,8 @@ import {
   LogOut,
   ChefHat,
   MonitorSmartphone,
-  Users
+  Users,
+  BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -32,6 +33,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
     { href: "/products", label: "Products", icon: Package },
     { href: "/categories", label: "Categories", icon: Tags },
     { href: "/payment-methods", label: "Payment Methods", icon: CreditCard },
+    { href: "/reports", label: "Reports", icon: BarChart3 },
     { href: "/print-stations", label: "Print Stations", icon: Computer },
     { href: "/printers", label: "Printers", icon: Printer },
     { href: "/users", label: "Users", icon: Users },

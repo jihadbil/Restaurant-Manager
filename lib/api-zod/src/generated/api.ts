@@ -700,6 +700,142 @@ export const GetPrintStationsByCategoryResponseItem = zod.object({
 export const GetPrintStationsByCategoryResponse = zod.array(GetPrintStationsByCategoryResponseItem)
 
 
+export const GetComprehensiveReportQueryParams = zod.object({
+  "startDate": zod.date().nullish(),
+  "endDate": zod.date().nullish()
+})
+
+export const GetComprehensiveReportResponse = zod.object({
+  "totalSales": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional(),
+  "totalDiscount": zod.number().optional(),
+  "totalOrdersCount": zod.number().optional(),
+  "averageOrderValue": zod.number().optional(),
+  "cancelledOrdersCount": zod.number().optional(),
+  "dailySales": zod.array(zod.object({
+  "date": zod.coerce.date().optional(),
+  "totalSales": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional(),
+  "totalOrders": zod.number().optional()
+})).optional(),
+  "salesByPaymentMethod": zod.array(zod.object({
+  "paymentMethodId": zod.number().optional(),
+  "paymentMethodName": zod.string().optional(),
+  "totalSales": zod.number().optional(),
+  "totalOrders": zod.number().optional()
+})).optional(),
+  "bestSellingProducts": zod.array(zod.object({
+  "productId": zod.number().optional(),
+  "name": zod.string().optional(),
+  "barCode": zod.string().nullish(),
+  "quantitySold": zod.number().optional(),
+  "totalRevenue": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional()
+})).optional(),
+  "bestSellingCategories": zod.array(zod.object({
+  "categoryId": zod.number().optional(),
+  "name": zod.string().optional(),
+  "quantitySold": zod.number().optional(),
+  "totalRevenue": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional()
+})).optional(),
+  "orderStatusSummary": zod.array(zod.object({
+  "status": zod.string().optional(),
+  "count": zod.number().optional(),
+  "totalSales": zod.number().optional()
+})).optional(),
+  "orderTypeSummary": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "count": zod.number().optional(),
+  "totalSales": zod.number().optional()
+})).optional()
+})
+
+
+export const GetBestSellingProductsQueryParams = zod.object({
+  "startDate": zod.date().nullish(),
+  "endDate": zod.date().nullish(),
+  "limit": zod.coerce.number().nullish()
+})
+
+export const GetBestSellingProductsResponseItem = zod.object({
+  "productId": zod.number().optional(),
+  "name": zod.string().optional(),
+  "barCode": zod.string().nullish(),
+  "quantitySold": zod.number().optional(),
+  "totalRevenue": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional()
+})
+export const GetBestSellingProductsResponse = zod.array(GetBestSellingProductsResponseItem)
+
+
+export const GetBestSellingCategoriesQueryParams = zod.object({
+  "startDate": zod.date().nullish(),
+  "endDate": zod.date().nullish(),
+  "limit": zod.coerce.number().nullish()
+})
+
+export const GetBestSellingCategoriesResponseItem = zod.object({
+  "categoryId": zod.number().optional(),
+  "name": zod.string().optional(),
+  "quantitySold": zod.number().optional(),
+  "totalRevenue": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional()
+})
+export const GetBestSellingCategoriesResponse = zod.array(GetBestSellingCategoriesResponseItem)
+
+
+export const GetDailySalesQueryParams = zod.object({
+  "startDate": zod.date().nullish(),
+  "endDate": zod.date().nullish()
+})
+
+export const GetDailySalesResponseItem = zod.object({
+  "date": zod.coerce.date().optional(),
+  "totalSales": zod.number().optional(),
+  "totalCost": zod.number().optional(),
+  "totalProfit": zod.number().optional(),
+  "totalOrders": zod.number().optional()
+})
+export const GetDailySalesResponse = zod.array(GetDailySalesResponseItem)
+
+
+export const GetPaymentMethodsReportQueryParams = zod.object({
+  "startDate": zod.date().nullish(),
+  "endDate": zod.date().nullish()
+})
+
+export const GetPaymentMethodsReportResponseItem = zod.object({
+  "paymentMethodId": zod.number().optional(),
+  "paymentMethodName": zod.string().optional(),
+  "totalSales": zod.number().optional(),
+  "totalOrders": zod.number().optional()
+})
+export const GetPaymentMethodsReportResponse = zod.array(GetPaymentMethodsReportResponseItem)
+
+
+export const GetCancelledOrdersQueryParams = zod.object({
+  "startDate": zod.date().nullish(),
+  "endDate": zod.date().nullish()
+})
+
+export const GetCancelledOrdersResponseItem = zod.object({
+  "orderId": zod.number().optional(),
+  "orderNumber": zod.number().optional(),
+  "date": zod.coerce.date().optional(),
+  "total": zod.number().optional(),
+  "notes": zod.string().nullish(),
+  "userName": zod.string().nullish()
+})
+export const GetCancelledOrdersResponse = zod.array(GetCancelledOrdersResponseItem)
+
+
 export const GetUsersResponseItem = zod.object({
   "id": zod.string().optional(),
   "userName": zod.string().nullish(),
