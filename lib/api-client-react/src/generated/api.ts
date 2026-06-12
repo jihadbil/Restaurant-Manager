@@ -62,7 +62,7 @@ export const getHealthCheckUrl = () => {
 
 
 
-  return `/api/healthz`
+  return `/healthz`
 }
 
 /**
@@ -85,7 +85,7 @@ export const healthCheck = async ( options?: RequestInit): Promise<HealthStatus>
 
 export const getHealthCheckQueryKey = () => {
     return [
-    `/api/healthz`
+    `/healthz`
     ] as const;
     }
 
@@ -139,7 +139,7 @@ export const getRegisterUrl = () => {
 
 
 
-  return `/api/api/Auth/register`
+  return `/api/Auth/register`
 }
 
 export const register = async (registerInput: RegisterInput, options?: RequestInit): Promise<AuthResponse> => {
@@ -204,7 +204,7 @@ export const getLoginUrl = () => {
 
 
 
-  return `/api/api/Auth/login`
+  return `/api/Auth/login`
 }
 
 export const login = async (loginInput: LoginInput, options?: RequestInit): Promise<AuthResponse> => {
@@ -269,7 +269,7 @@ export const getGetCategoriesUrl = () => {
 
 
 
-  return `/api/api/Categories`
+  return `/api/Categories`
 }
 
 export const getCategories = async ( options?: RequestInit): Promise<Category[]> => {
@@ -289,7 +289,7 @@ export const getCategories = async ( options?: RequestInit): Promise<Category[]>
 
 export const getGetCategoriesQueryKey = () => {
     return [
-    `/api/api/Categories`
+    `/api/Categories`
     ] as const;
     }
 
@@ -340,7 +340,7 @@ export const getCreateCategoryUrl = () => {
 
 
 
-  return `/api/api/Categories`
+  return `/api/Categories`
 }
 
 export const createCategory = async (categoryInput: CategoryInput, options?: RequestInit): Promise<Category> => {
@@ -405,7 +405,7 @@ export const getGetCategoryByIdUrl = (id: number,) => {
 
 
 
-  return `/api/api/Categories/${id}`
+  return `/api/Categories/${id}`
 }
 
 export const getCategoryById = async (id: number, options?: RequestInit): Promise<Category> => {
@@ -425,7 +425,7 @@ export const getCategoryById = async (id: number, options?: RequestInit): Promis
 
 export const getGetCategoryByIdQueryKey = (id: number,) => {
     return [
-    `/api/api/Categories/${id}`
+    `/api/Categories/${id}`
     ] as const;
     }
 
@@ -476,7 +476,7 @@ export const getUpdateCategoryUrl = (id: number,) => {
 
 
 
-  return `/api/api/Categories/${id}`
+  return `/api/Categories/${id}`
 }
 
 export const updateCategory = async (id: number,
@@ -542,7 +542,7 @@ export const getDeleteCategoryUrl = (id: number,) => {
 
 
 
-  return `/api/api/Categories/${id}`
+  return `/api/Categories/${id}`
 }
 
 export const deleteCategory = async (id: number, options?: RequestInit): Promise<void> => {
@@ -606,7 +606,7 @@ export const getGetOrdersUrl = () => {
 
 
 
-  return `/api/api/Orders`
+  return `/api/Orders`
 }
 
 export const getOrders = async ( options?: RequestInit): Promise<Order[]> => {
@@ -626,7 +626,7 @@ export const getOrders = async ( options?: RequestInit): Promise<Order[]> => {
 
 export const getGetOrdersQueryKey = () => {
     return [
-    `/api/api/Orders`
+    `/api/Orders`
     ] as const;
     }
 
@@ -677,7 +677,7 @@ export const getCreateOrderUrl = () => {
 
 
 
-  return `/api/api/Orders`
+  return `/api/Orders`
 }
 
 export const createOrder = async (orderInput: OrderInput, options?: RequestInit): Promise<Order> => {
@@ -742,7 +742,7 @@ export const getGetOrderByIdUrl = (id: number,) => {
 
 
 
-  return `/api/api/Orders/${id}`
+  return `/api/Orders/${id}`
 }
 
 export const getOrderById = async (id: number, options?: RequestInit): Promise<Order> => {
@@ -762,7 +762,7 @@ export const getOrderById = async (id: number, options?: RequestInit): Promise<O
 
 export const getGetOrderByIdQueryKey = (id: number,) => {
     return [
-    `/api/api/Orders/${id}`
+    `/api/Orders/${id}`
     ] as const;
     }
 
@@ -813,7 +813,7 @@ export const getUpdateOrderUrl = (id: number,) => {
 
 
 
-  return `/api/api/Orders/${id}`
+  return `/api/Orders/${id}`
 }
 
 export const updateOrder = async (id: number,
@@ -879,7 +879,7 @@ export const getDeleteOrderUrl = (id: number,) => {
 
 
 
-  return `/api/api/Orders/${id}`
+  return `/api/Orders/${id}`
 }
 
 export const deleteOrder = async (id: number, options?: RequestInit): Promise<void> => {
@@ -943,7 +943,7 @@ export const getGetPaymentMethodsUrl = () => {
 
 
 
-  return `/api/api/PaymentMethods`
+  return `/api/PaymentMethods`
 }
 
 export const getPaymentMethods = async ( options?: RequestInit): Promise<PaymentMethod[]> => {
@@ -963,7 +963,7 @@ export const getPaymentMethods = async ( options?: RequestInit): Promise<Payment
 
 export const getGetPaymentMethodsQueryKey = () => {
     return [
-    `/api/api/PaymentMethods`
+    `/api/PaymentMethods`
     ] as const;
     }
 
@@ -1014,7 +1014,7 @@ export const getCreatePaymentMethodUrl = () => {
 
 
 
-  return `/api/api/PaymentMethods`
+  return `/api/PaymentMethods`
 }
 
 export const createPaymentMethod = async (paymentMethodInput: PaymentMethodInput, options?: RequestInit): Promise<PaymentMethod> => {
@@ -1079,7 +1079,7 @@ export const getGetPaymentMethodByIdUrl = (id: number,) => {
 
 
 
-  return `/api/api/PaymentMethods/${id}`
+  return `/api/PaymentMethods/${id}`
 }
 
 export const getPaymentMethodById = async (id: number, options?: RequestInit): Promise<PaymentMethod> => {
@@ -1099,7 +1099,7 @@ export const getPaymentMethodById = async (id: number, options?: RequestInit): P
 
 export const getGetPaymentMethodByIdQueryKey = (id: number,) => {
     return [
-    `/api/api/PaymentMethods/${id}`
+    `/api/PaymentMethods/${id}`
     ] as const;
     }
 
@@ -1150,7 +1150,7 @@ export const getUpdatePaymentMethodUrl = (id: number,) => {
 
 
 
-  return `/api/api/PaymentMethods/${id}`
+  return `/api/PaymentMethods/${id}`
 }
 
 export const updatePaymentMethod = async (id: number,
@@ -1216,7 +1216,7 @@ export const getDeletePaymentMethodUrl = (id: number,) => {
 
 
 
-  return `/api/api/PaymentMethods/${id}`
+  return `/api/PaymentMethods/${id}`
 }
 
 export const deletePaymentMethod = async (id: number, options?: RequestInit): Promise<void> => {
@@ -1280,7 +1280,7 @@ export const getGetPrintersUrl = () => {
 
 
 
-  return `/api/api/Printers`
+  return `/api/Printers`
 }
 
 export const getPrinters = async ( options?: RequestInit): Promise<Printer[]> => {
@@ -1300,7 +1300,7 @@ export const getPrinters = async ( options?: RequestInit): Promise<Printer[]> =>
 
 export const getGetPrintersQueryKey = () => {
     return [
-    `/api/api/Printers`
+    `/api/Printers`
     ] as const;
     }
 
@@ -1351,7 +1351,7 @@ export const getCreatePrinterUrl = () => {
 
 
 
-  return `/api/api/Printers`
+  return `/api/Printers`
 }
 
 export const createPrinter = async (printerInput: PrinterInput, options?: RequestInit): Promise<Printer> => {
@@ -1416,7 +1416,7 @@ export const getGetPrinterByIdUrl = (id: number,) => {
 
 
 
-  return `/api/api/Printers/${id}`
+  return `/api/Printers/${id}`
 }
 
 export const getPrinterById = async (id: number, options?: RequestInit): Promise<Printer> => {
@@ -1436,7 +1436,7 @@ export const getPrinterById = async (id: number, options?: RequestInit): Promise
 
 export const getGetPrinterByIdQueryKey = (id: number,) => {
     return [
-    `/api/api/Printers/${id}`
+    `/api/Printers/${id}`
     ] as const;
     }
 
@@ -1487,7 +1487,7 @@ export const getUpdatePrinterUrl = (id: number,) => {
 
 
 
-  return `/api/api/Printers/${id}`
+  return `/api/Printers/${id}`
 }
 
 export const updatePrinter = async (id: number,
@@ -1553,7 +1553,7 @@ export const getDeletePrinterUrl = (id: number,) => {
 
 
 
-  return `/api/api/Printers/${id}`
+  return `/api/Printers/${id}`
 }
 
 export const deletePrinter = async (id: number, options?: RequestInit): Promise<void> => {
@@ -1617,7 +1617,7 @@ export const getGetPrintStationsUrl = () => {
 
 
 
-  return `/api/api/PrintStations`
+  return `/api/PrintStations`
 }
 
 export const getPrintStations = async ( options?: RequestInit): Promise<PrintStation[]> => {
@@ -1637,7 +1637,7 @@ export const getPrintStations = async ( options?: RequestInit): Promise<PrintSta
 
 export const getGetPrintStationsQueryKey = () => {
     return [
-    `/api/api/PrintStations`
+    `/api/PrintStations`
     ] as const;
     }
 
@@ -1688,7 +1688,7 @@ export const getCreatePrintStationUrl = () => {
 
 
 
-  return `/api/api/PrintStations`
+  return `/api/PrintStations`
 }
 
 export const createPrintStation = async (printStationInput: PrintStationInput, options?: RequestInit): Promise<PrintStation> => {
@@ -1753,7 +1753,7 @@ export const getGetPrintStationByIdUrl = (id: number,) => {
 
 
 
-  return `/api/api/PrintStations/${id}`
+  return `/api/PrintStations/${id}`
 }
 
 export const getPrintStationById = async (id: number, options?: RequestInit): Promise<PrintStation> => {
@@ -1773,7 +1773,7 @@ export const getPrintStationById = async (id: number, options?: RequestInit): Pr
 
 export const getGetPrintStationByIdQueryKey = (id: number,) => {
     return [
-    `/api/api/PrintStations/${id}`
+    `/api/PrintStations/${id}`
     ] as const;
     }
 
@@ -1824,7 +1824,7 @@ export const getUpdatePrintStationUrl = (id: number,) => {
 
 
 
-  return `/api/api/PrintStations/${id}`
+  return `/api/PrintStations/${id}`
 }
 
 export const updatePrintStation = async (id: number,
@@ -1890,7 +1890,7 @@ export const getDeletePrintStationUrl = (id: number,) => {
 
 
 
-  return `/api/api/PrintStations/${id}`
+  return `/api/PrintStations/${id}`
 }
 
 export const deletePrintStation = async (id: number, options?: RequestInit): Promise<void> => {
@@ -1954,7 +1954,7 @@ export const getGetProductsUrl = () => {
 
 
 
-  return `/api/api/Products`
+  return `/api/Products`
 }
 
 export const getProducts = async ( options?: RequestInit): Promise<Product[]> => {
@@ -1974,7 +1974,7 @@ export const getProducts = async ( options?: RequestInit): Promise<Product[]> =>
 
 export const getGetProductsQueryKey = () => {
     return [
-    `/api/api/Products`
+    `/api/Products`
     ] as const;
     }
 
@@ -2025,7 +2025,7 @@ export const getCreateProductUrl = () => {
 
 
 
-  return `/api/api/Products`
+  return `/api/Products`
 }
 
 export const createProduct = async (productInput: ProductInput, options?: RequestInit): Promise<Product> => {
@@ -2090,7 +2090,7 @@ export const getGetProductByIdUrl = (id: number,) => {
 
 
 
-  return `/api/api/Products/${id}`
+  return `/api/Products/${id}`
 }
 
 export const getProductById = async (id: number, options?: RequestInit): Promise<Product> => {
@@ -2110,7 +2110,7 @@ export const getProductById = async (id: number, options?: RequestInit): Promise
 
 export const getGetProductByIdQueryKey = (id: number,) => {
     return [
-    `/api/api/Products/${id}`
+    `/api/Products/${id}`
     ] as const;
     }
 
@@ -2161,7 +2161,7 @@ export const getUpdateProductUrl = (id: number,) => {
 
 
 
-  return `/api/api/Products/${id}`
+  return `/api/Products/${id}`
 }
 
 export const updateProduct = async (id: number,
@@ -2227,7 +2227,7 @@ export const getDeleteProductUrl = (id: number,) => {
 
 
 
-  return `/api/api/Products/${id}`
+  return `/api/Products/${id}`
 }
 
 export const deleteProduct = async (id: number, options?: RequestInit): Promise<void> => {
@@ -2291,7 +2291,7 @@ export const getLinkCategoryPrintStationUrl = () => {
 
 
 
-  return `/api/api/CategoryPrintStations/link`
+  return `/api/CategoryPrintStations/link`
 }
 
 export const linkCategoryPrintStation = async (categoryPrintStationLink: CategoryPrintStationLink, options?: RequestInit): Promise<void> => {
@@ -2357,7 +2357,7 @@ export const getUnlinkCategoryPrintStationUrl = (categoryId: number,
 
 
 
-  return `/api/api/CategoryPrintStations/unlink/${categoryId}/${printStationId}`
+  return `/api/CategoryPrintStations/unlink/${categoryId}/${printStationId}`
 }
 
 export const unlinkCategoryPrintStation = async (categoryId: number,
@@ -2422,7 +2422,7 @@ export const getGetCategoriesByStationUrl = (stationId: number,) => {
 
 
 
-  return `/api/api/CategoryPrintStations/station/${stationId}`
+  return `/api/CategoryPrintStations/station/${stationId}`
 }
 
 export const getCategoriesByStation = async (stationId: number, options?: RequestInit): Promise<Category[]> => {
@@ -2442,7 +2442,7 @@ export const getCategoriesByStation = async (stationId: number, options?: Reques
 
 export const getGetCategoriesByStationQueryKey = (stationId: number,) => {
     return [
-    `/api/api/CategoryPrintStations/station/${stationId}`
+    `/api/CategoryPrintStations/station/${stationId}`
     ] as const;
     }
 
@@ -2493,7 +2493,7 @@ export const getGetPrintStationsByCategoryUrl = (categoryId: number,) => {
 
 
 
-  return `/api/api/CategoryPrintStations/category/${categoryId}`
+  return `/api/CategoryPrintStations/category/${categoryId}`
 }
 
 export const getPrintStationsByCategory = async (categoryId: number, options?: RequestInit): Promise<PrintStation[]> => {
@@ -2513,7 +2513,7 @@ export const getPrintStationsByCategory = async (categoryId: number, options?: R
 
 export const getGetPrintStationsByCategoryQueryKey = (categoryId: number,) => {
     return [
-    `/api/api/CategoryPrintStations/category/${categoryId}`
+    `/api/CategoryPrintStations/category/${categoryId}`
     ] as const;
     }
 
