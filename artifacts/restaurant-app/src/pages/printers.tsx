@@ -15,10 +15,10 @@ import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const printerSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  printerName: z.string().min(1, "System printer name is required").max(150),
+  name: z.string().min(1, "الاسم مطلوب").max(100),
+  printerName: z.string().min(1, "اسم الطابعة في النظام مطلوب").max(150),
   printerType: z.coerce.number(),
-  printStationId: z.coerce.number().min(1, "Print station is required"),
+  printStationId: z.coerce.number().min(1, "محطة الطباعة مطلوبة"),
 });
 
 type PrinterFormValues = z.infer<typeof printerSchema>;
@@ -52,9 +52,9 @@ export default function Printers() {
         queryClient.invalidateQueries({ queryKey: getGetPrintersQueryKey() });
         setIsCreateOpen(false);
         form.reset();
-        toast({ title: "Printer created successfully" });
+        toast({ title: "تم إنشاء الطابعة بنجاح" });
       },
-      onError: () => toast({ title: "Failed to create printer", variant: "destructive" })
+      onError: () => toast({ title: "فشل إنشاء الطابعة", variant: "destructive" })
     });
   };
 
@@ -64,20 +64,20 @@ export default function Printers() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetPrintersQueryKey() });
         setEditingPrinter(null);
-        toast({ title: "Printer updated successfully" });
+        toast({ title: "تم تحديث الطابعة بنجاح" });
       },
-      onError: () => toast({ title: "Failed to update printer", variant: "destructive" })
+      onError: () => toast({ title: "فشل تحديث الطابعة", variant: "destructive" })
     });
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this printer?")) {
+    if (confirm("هل أنت متأكد من حذف هذه الطابعة؟")) {
       deleteMutation.mutate({ id }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetPrintersQueryKey() });
-          toast({ title: "Printer deleted successfully" });
+          toast({ title: "تم حذف الطابعة بنجاح" });
         },
-        onError: () => toast({ title: "Failed to delete printer", variant: "destructive" })
+        onError: () => toast({ title: "فشل حذف الطابعة", variant: "destructive" })
       });
     }
   };
@@ -95,42 +95,42 @@ export default function Printers() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Printers</h1>
+        <h1 className="text-3xl font-bold tracking-tight">الطابعات</h1>
         
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" /> Add Printer</Button>
+            <Button><Plus className="ms-2 h-4 w-4" /> إضافة طابعة</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Printer</DialogTitle>
+              <DialogTitle>إنشاء طابعة جديدة</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-4">
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Friendly Name</FormLabel>
-                    <FormControl><Input placeholder="E.g. Hot Station 1" {...field} /></FormControl>
+                    <FormLabel>الاسم المعروض</FormLabel>
+                    <FormControl><Input placeholder="مثل: محطة السخان 1" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={form.control} name="printerName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>System Printer Name / IP</FormLabel>
-                    <FormControl><Input placeholder="E.g. \\Server\EpsonTM" {...field} /></FormControl>
+                    <FormLabel>اسم الطابعة في النظام / IP</FormLabel>
+                    <FormControl><Input placeholder="مثل: \\Server\EpsonTM" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={form.control} name="printerType" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>النوع</FormLabel>
                     <Select onValueChange={(v) => field.onChange(parseInt(v))} defaultValue={field.value?.toString()}>
                       <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="اختر النوع" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="0">Receipt</SelectItem>
-                        <SelectItem value="1">Kitchen</SelectItem>
+                        <SelectItem value="0">وصل</SelectItem>
+                        <SelectItem value="1">مطبخ</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -138,10 +138,10 @@ export default function Printers() {
                 )} />
                 <FormField control={form.control} name="printStationId" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Station</FormLabel>
+                    <FormLabel>المحطة</FormLabel>
                     <Select onValueChange={(v) => field.onChange(parseInt(v))} defaultValue={field.value ? field.value.toString() : ""}>
                       <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Select station" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="اختر المحطة" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {stations?.map(s => <SelectItem key={s.id} value={s.id!.toString()}>{s.name}</SelectItem>)}
@@ -152,8 +152,8 @@ export default function Printers() {
                 )} />
                 <DialogFooter>
                   <Button type="submit" disabled={createMutation.isPending}>
-                    {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Create
+                    {createMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                    إنشاء
                   </Button>
                 </DialogFooter>
               </form>
@@ -166,18 +166,18 @@ export default function Printers() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>System Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Station</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>الاسم المعروض</TableHead>
+              <TableHead>الاسم في النظام</TableHead>
+              <TableHead>النوع</TableHead>
+              <TableHead>المحطة</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading printers...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">جارٍ تحميل الطابعات...</TableCell></TableRow>
             ) : printers?.length === 0 ? (
-              <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No printers found</TableCell></TableRow>
+              <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">لا توجد طابعات</TableCell></TableRow>
             ) : (
               printers?.map((printer) => (
                 <TableRow key={printer.id}>
@@ -185,14 +185,14 @@ export default function Printers() {
                   <TableCell className="text-muted-foreground font-mono text-sm">{printer.printerName}</TableCell>
                   <TableCell>
                     {printer.printerType === 0 ? (
-                      <Badge variant="outline">Receipt</Badge>
+                      <Badge variant="outline">وصل</Badge>
                     ) : (
-                      <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200">Kitchen</Badge>
+                      <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200">مطبخ</Badge>
                     )}
                   </TableCell>
                   <TableCell>{printer.printStationName || "-"}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell>
+                    <div className="flex justify-start gap-2">
                       <Button variant="outline" size="icon" onClick={() => openEditDialog(printer)}>
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -211,34 +211,34 @@ export default function Printers() {
       <Dialog open={!!editingPrinter} onOpenChange={(open) => !open && setEditingPrinter(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Printer</DialogTitle>
+            <DialogTitle>تعديل الطابعة</DialogTitle>
           </DialogHeader>
           <Form {...editForm}>
             <form onSubmit={editForm.handleSubmit(handleEdit)} className="space-y-4">
               <FormField control={editForm.control} name="name" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Friendly Name</FormLabel>
-                  <FormControl><Input placeholder="E.g. Hot Station 1" {...field} /></FormControl>
+                  <FormLabel>الاسم المعروض</FormLabel>
+                  <FormControl><Input placeholder="مثل: محطة السخان 1" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField control={editForm.control} name="printerName" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>System Printer Name / IP</FormLabel>
-                  <FormControl><Input placeholder="E.g. \\Server\EpsonTM" {...field} /></FormControl>
+                  <FormLabel>اسم الطابعة في النظام / IP</FormLabel>
+                  <FormControl><Input placeholder="مثل: \\Server\EpsonTM" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField control={editForm.control} name="printerType" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type</FormLabel>
+                  <FormLabel>النوع</FormLabel>
                   <Select onValueChange={(v) => field.onChange(parseInt(v))} defaultValue={field.value?.toString()}>
                     <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
+                      <SelectTrigger><SelectValue placeholder="اختر النوع" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0">Receipt</SelectItem>
-                      <SelectItem value="1">Kitchen</SelectItem>
+                      <SelectItem value="0">وصل</SelectItem>
+                      <SelectItem value="1">مطبخ</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -246,10 +246,10 @@ export default function Printers() {
               )} />
               <FormField control={editForm.control} name="printStationId" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Station</FormLabel>
+                  <FormLabel>المحطة</FormLabel>
                   <Select onValueChange={(v) => field.onChange(parseInt(v))} defaultValue={field.value ? field.value.toString() : ""}>
                     <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Select station" /></SelectTrigger>
+                      <SelectTrigger><SelectValue placeholder="اختر المحطة" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {stations?.map(s => <SelectItem key={s.id} value={s.id!.toString()}>{s.name}</SelectItem>)}
@@ -260,8 +260,8 @@ export default function Printers() {
               )} />
               <DialogFooter>
                 <Button type="submit" disabled={updateMutation.isPending}>
-                  {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Changes
+                  {updateMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                  حفظ التغييرات
                 </Button>
               </DialogFooter>
             </form>

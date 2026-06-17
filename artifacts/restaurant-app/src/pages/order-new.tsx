@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Trash2, Plus, ArrowLeft, Loader2 } from "lucide-react";
+import { Trash2, Plus, ArrowRight, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -83,11 +83,11 @@ export default function OrderNew() {
 
   const handleSubmit = () => {
     if (!paymentMethodId) {
-      toast({ title: "Please select a payment method", variant: "destructive" });
+      toast({ title: "يرجى اختيار طريقة دفع", variant: "destructive" });
       return;
     }
     if (items.length === 0) {
-      toast({ title: "Please add at least one item", variant: "destructive" });
+      toast({ title: "يرجى إضافة عنصر واحد على الأقل", variant: "destructive" });
       return;
     }
 
@@ -110,10 +110,10 @@ export default function OrderNew() {
     }, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetOrdersQueryKey() });
-        toast({ title: "Order created successfully" });
+        toast({ title: "تم إنشاء الطلب بنجاح" });
         setLocation("/orders");
       },
-      onError: () => toast({ title: "Failed to create order", variant: "destructive" })
+      onError: () => toast({ title: "فشل إنشاء الطلب", variant: "destructive" })
     });
   };
 
@@ -123,23 +123,23 @@ export default function OrderNew() {
     <div className="space-y-6 max-w-5xl mx-auto">
       <div className="flex items-center space-x-4">
         <Button variant="outline" size="icon" onClick={() => setLocation("/orders")}>
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowRight className="h-4 w-4" />
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight">Create Order</h1>
+        <h1 className="text-3xl font-bold tracking-tight">طلب جديد</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Order Items</CardTitle>
+              <CardTitle>عناصر الطلب</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <Select onValueChange={handleAddItem}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Add product..." />
+                      <SelectValue placeholder="أضف منتجاً..." />
                     </SelectTrigger>
                     <SelectContent>
                       {products?.map(p => (
@@ -155,10 +155,10 @@ export default function OrderNew() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Product</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead className="w-24">Qty</TableHead>
-                        <TableHead className="text-right">Total</TableHead>
+                        <TableHead>المنتج</TableHead>
+                        <TableHead>السعر</TableHead>
+                        <TableHead className="w-24">الكمية</TableHead>
+                        <TableHead className="text-right">الإجمالي</TableHead>
                         <TableHead className="w-12"></TableHead>
                       </TableRow>
                     </TableHeader>
@@ -192,7 +192,7 @@ export default function OrderNew() {
                 </div>
               ) : (
                 <div className="text-center py-8 text-muted-foreground border rounded-md border-dashed">
-                  No items added yet. Select a product above.
+                  لم تتم إضافة عناصر بعد. اختر منتجاً أعلاه.
                 </div>
               )}
             </CardContent>
@@ -202,11 +202,11 @@ export default function OrderNew() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Order Details</CardTitle>
+              <CardTitle>تفاصيل الطلب</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label>Order Number</Label>
+                <Label>رقم الطلب</Label>
                 <Input 
                   type="number" 
                   value={orderNumber} 
@@ -215,24 +215,24 @@ export default function OrderNew() {
               </div>
 
               <div className="space-y-2">
-                <Label>Order Type</Label>
+                <Label>نوع الطلب</Label>
                 <Select value={orderType} onValueChange={setOrderType}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select type" />
+                    <SelectValue placeholder="اختر النوع" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="0">Dine In</SelectItem>
-                    <SelectItem value="1">Takeout</SelectItem>
-                    <SelectItem value="2">Delivery</SelectItem>
+                    <SelectItem value="0">داخل المطعم</SelectItem>
+                    <SelectItem value="1">للخارج</SelectItem>
+                    <SelectItem value="2">توصيل</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label>Payment Method</Label>
+                <Label>طريقة الدفع</Label>
                 <Select value={paymentMethodId} onValueChange={setPaymentMethodId}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select payment method" />
+                    <SelectValue placeholder="اختر طريقة الدفع" />
                   </SelectTrigger>
                   <SelectContent>
                     {paymentMethods?.map(pm => (
@@ -243,9 +243,9 @@ export default function OrderNew() {
               </div>
 
               <div className="space-y-2">
-                <Label>Notes</Label>
+                <Label>الملاحظات</Label>
                 <Textarea 
-                  placeholder="Kitchen notes, customer requests..." 
+                  placeholder="ملاحظات المطبخ، طلبات العملاء..." 
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   className="resize-none h-20"
@@ -256,15 +256,15 @@ export default function OrderNew() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Summary</CardTitle>
+              <CardTitle>الملخص</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">المجموع الجزئي</span>
                 <span>{formatCurrency(subtotal)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Discount</span>
+                <span className="text-muted-foreground">الخصم</span>
                 <div className="w-24">
                   <Input 
                     type="number" 
@@ -276,7 +276,7 @@ export default function OrderNew() {
                 </div>
               </div>
               <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">
-                <span>Total</span>
+                <span>الإجمالي</span>
                 <span className="text-primary">{formatCurrency(total)}</span>
               </div>
             </CardContent>
@@ -287,8 +287,8 @@ export default function OrderNew() {
                 onClick={handleSubmit}
                 disabled={createMutation.isPending || items.length === 0 || !paymentMethodId}
               >
-                {createMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                Complete Order
+                {createMutation.isPending ? <Loader2 className="ms-2 h-4 w-4 animate-spin" /> : <Plus className="ms-2 h-4 w-4" />}
+                إتمام الطلب
               </Button>
             </CardFooter>
           </Card>

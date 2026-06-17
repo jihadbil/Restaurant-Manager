@@ -30,31 +30,31 @@ export default function Dashboard() {
 
   const getStatusBadge = (status?: number | null) => {
     switch (status) {
-      case 0: return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">Pending</Badge>;
-      case 1: return <Badge className="bg-blue-500 hover:bg-blue-600 text-white">In Progress</Badge>;
-      case 2: return <Badge className="bg-green-500 hover:bg-green-600 text-white">Completed</Badge>;
-      case 3: return <Badge className="bg-red-500 hover:bg-red-600 text-white">Cancelled</Badge>;
-      default: return <Badge variant="outline">Unknown</Badge>;
+      case 0: return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">معلّق</Badge>;
+      case 1: return <Badge className="bg-blue-500 hover:bg-blue-600 text-white">جارٍ</Badge>;
+      case 2: return <Badge className="bg-green-500 hover:bg-green-600 text-white">مكتمل</Badge>;
+      case 3: return <Badge className="bg-red-500 hover:bg-red-600 text-white">ملغى</Badge>;
+      default: return <Badge variant="outline">غير معروف</Badge>;
     }
   };
 
   const getTypeBadge = (type?: number | null) => {
     switch (type) {
-      case 0: return <Badge className="bg-purple-500 hover:bg-purple-600 text-white">Dine In</Badge>;
-      case 1: return <Badge className="bg-orange-500 hover:bg-orange-600 text-white">Takeout</Badge>;
-      case 2: return <Badge className="bg-teal-500 hover:bg-teal-600 text-white">Delivery</Badge>;
-      default: return <Badge variant="outline">Unknown</Badge>;
+      case 0: return <Badge className="bg-purple-500 hover:bg-purple-600 text-white">داخل المطعم</Badge>;
+      case 1: return <Badge className="bg-orange-500 hover:bg-orange-600 text-white">للخارج</Badge>;
+      case 2: return <Badge className="bg-teal-500 hover:bg-teal-600 text-white">توصيل</Badge>;
+      default: return <Badge variant="outline">غير معروف</Badge>;
     }
   };
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
+      <h1 className="text-3xl font-bold tracking-tight">لوحة التحكم</h1>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <CardTitle className="text-sm font-medium">إجمالي الإيرادات</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -63,7 +63,7 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
+            <CardTitle className="text-sm font-medium">إجمالي الطلبات</CardTitle>
             <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -72,7 +72,7 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Products</CardTitle>
+            <CardTitle className="text-sm font-medium">المنتجات النشطة</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -81,7 +81,7 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
+            <CardTitle className="text-sm font-medium">الفئات</CardTitle>
             <Tags className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -93,28 +93,28 @@ export default function Dashboard() {
       <div className="grid gap-4 md:grid-cols-1">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
+            <CardTitle>الطلبات الأخيرة</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Order #</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
+                    <TableHead>طلب #</TableHead>
+                    <TableHead>التاريخ</TableHead>
+                    <TableHead>النوع</TableHead>
+                    <TableHead>الحالة</TableHead>
+                    <TableHead className="text-right">الإجمالي</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {loadingOrders ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center py-4">Loading...</TableCell>
+                      <TableCell colSpan={5} className="text-center py-4">جارٍ التحميل...</TableCell>
                     </TableRow>
                   ) : recentOrders.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center py-4">No recent orders</TableCell>
+                      <TableCell colSpan={5} className="text-center py-4">لا توجد طلبات حديثة</TableCell>
                     </TableRow>
                   ) : (
                     recentOrders.map((order) => (

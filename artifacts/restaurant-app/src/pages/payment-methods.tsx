@@ -15,7 +15,7 @@ import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const paymentMethodSchema = z.object({
-  name: z.string().min(1, "Name is required").max(50),
+  name: z.string().min(1, "الاسم مطلوب").max(50),
   isTaxFree: z.boolean().default(false),
 });
 
@@ -49,9 +49,9 @@ export default function PaymentMethods() {
         queryClient.invalidateQueries({ queryKey: getGetPaymentMethodsQueryKey() });
         setIsCreateOpen(false);
         form.reset();
-        toast({ title: "Payment method created successfully" });
+        toast({ title: "تم إنشاء طريقة الدفع بنجاح" });
       },
-      onError: () => toast({ title: "Failed to create payment method", variant: "destructive" })
+      onError: () => toast({ title: "فشل إنشاء طريقة الدفع", variant: "destructive" })
     });
   };
 
@@ -61,20 +61,20 @@ export default function PaymentMethods() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetPaymentMethodsQueryKey() });
         setEditingMethod(null);
-        toast({ title: "Payment method updated successfully" });
+        toast({ title: "تم تحديث طريقة الدفع بنجاح" });
       },
-      onError: () => toast({ title: "Failed to update payment method", variant: "destructive" })
+      onError: () => toast({ title: "فشل تحديث طريقة الدفع", variant: "destructive" })
     });
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this payment method?")) {
+    if (confirm("هل أنت متأكد من حذف طريقة الدفع هذه؟")) {
       deleteMutation.mutate({ id }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetPaymentMethodsQueryKey() });
-          toast({ title: "Payment method deleted successfully" });
+          toast({ title: "تم حذف طريقة الدفع بنجاح" });
         },
-        onError: () => toast({ title: "Failed to delete payment method", variant: "destructive" })
+        onError: () => toast({ title: "فشل حذف طريقة الدفع", variant: "destructive" })
       });
     }
   };
@@ -87,22 +87,22 @@ export default function PaymentMethods() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Payment Methods</h1>
+        <h1 className="text-3xl font-bold tracking-tight">طرق الدفع</h1>
         
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" /> Add Payment Method</Button>
+            <Button><Plus className="ms-2 h-4 w-4" /> إضافة طريقة دفع</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Payment Method</DialogTitle>
+              <DialogTitle>إنشاء طريقة دفع جديدة</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-4">
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl><Input placeholder="E.g. Cash, Credit Card" {...field} /></FormControl>
+                    <FormLabel>الاسم</FormLabel>
+                    <FormControl><Input placeholder="مثل: نقدي، بطاقة ائتمان" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -111,16 +111,16 @@ export default function PaymentMethods() {
                     <FormControl>
                       <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>Tax Free</FormLabel>
-                      <FormDescription>Orders using this payment method will not have tax applied.</FormDescription>
+                    <div className="space-y-1 leading-none ps-3">
+                      <FormLabel>معفى من الضريبة</FormLabel>
+                      <FormDescription>الطلبات التي تستخدم طريقة الدفع هذه لن يُطبَّق عليها ضريبة.</FormDescription>
                     </div>
                   </FormItem>
                 )} />
                 <DialogFooter>
                   <Button type="submit" disabled={createMutation.isPending}>
-                    {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Create
+                    {createMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                    إنشاء
                   </Button>
                 </DialogFooter>
               </form>
@@ -133,27 +133,27 @@ export default function PaymentMethods() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead className="w-full">Name</TableHead>
-              <TableHead>Properties</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>الرقم</TableHead>
+              <TableHead className="w-full">الاسم</TableHead>
+              <TableHead>الخصائص</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={4} className="text-center py-8 text-muted-foreground">Loading payment methods...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={4} className="text-center py-8 text-muted-foreground">جارٍ تحميل طرق الدفع...</TableCell></TableRow>
             ) : methods?.length === 0 ? (
-              <TableRow><TableCell colSpan={4} className="text-center py-8 text-muted-foreground">No payment methods found</TableCell></TableRow>
+              <TableRow><TableCell colSpan={4} className="text-center py-8 text-muted-foreground">لا توجد طرق دفع</TableCell></TableRow>
             ) : (
               methods?.map((method) => (
                 <TableRow key={method.id}>
                   <TableCell>{method.id}</TableCell>
                   <TableCell className="font-medium">{method.name}</TableCell>
                   <TableCell>
-                    {method.isTaxFree && <Badge variant="secondary">Tax Free</Badge>}
+                    {method.isTaxFree && <Badge variant="secondary">معفى من الضريبة</Badge>}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell>
+                    <div className="flex justify-start gap-2">
                       <Button variant="outline" size="icon" onClick={() => openEditDialog(method)}>
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -172,14 +172,14 @@ export default function PaymentMethods() {
       <Dialog open={!!editingMethod} onOpenChange={(open) => !open && setEditingMethod(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Payment Method</DialogTitle>
+            <DialogTitle>تعديل طريقة الدفع</DialogTitle>
           </DialogHeader>
           <Form {...editForm}>
             <form onSubmit={editForm.handleSubmit(handleEdit)} className="space-y-4">
               <FormField control={editForm.control} name="name" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl><Input placeholder="Payment method name" {...field} /></FormControl>
+                  <FormLabel>الاسم</FormLabel>
+                  <FormControl><Input placeholder="اسم طريقة الدفع" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
@@ -188,16 +188,16 @@ export default function PaymentMethods() {
                   <FormControl>
                     <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Tax Free</FormLabel>
-                    <FormDescription>Orders using this payment method will not have tax applied.</FormDescription>
+                  <div className="space-y-1 leading-none ps-3">
+                    <FormLabel>معفى من الضريبة</FormLabel>
+                    <FormDescription>الطلبات التي تستخدم طريقة الدفع هذه لن يُطبَّق عليها ضريبة.</FormDescription>
                   </div>
                 </FormItem>
               )} />
               <DialogFooter>
                 <Button type="submit" disabled={updateMutation.isPending}>
-                  {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Changes
+                  {updateMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                  حفظ التغييرات
                 </Button>
               </DialogFooter>
             </form>

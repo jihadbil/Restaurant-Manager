@@ -27,25 +27,25 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
   const [location] = useLocation();
 
   const navItems = [
-    { href: "/", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/pos", label: "Point of Sale", icon: MonitorSmartphone },
-    { href: "/orders", label: "Orders", icon: Receipt },
-    { href: "/products", label: "Products", icon: Package },
-    { href: "/categories", label: "Categories", icon: Tags },
-    { href: "/payment-methods", label: "Payment Methods", icon: CreditCard },
-    { href: "/reports", label: "Reports", icon: BarChart3 },
-    { href: "/print-stations", label: "Print Stations", icon: Computer },
-    { href: "/printers", label: "Printers", icon: Printer },
-    { href: "/users", label: "Users", icon: Users },
-    { href: "/settings/category-stations", label: "Category Stations", icon: Settings },
+    { href: "/", label: "لوحة التحكم", icon: LayoutDashboard },
+    { href: "/pos", label: "نقطة البيع", icon: MonitorSmartphone },
+    { href: "/orders", label: "الطلبات", icon: Receipt },
+    { href: "/products", label: "المنتجات", icon: Package },
+    { href: "/categories", label: "الفئات", icon: Tags },
+    { href: "/payment-methods", label: "طرق الدفع", icon: CreditCard },
+    { href: "/reports", label: "التقارير", icon: BarChart3 },
+    { href: "/print-stations", label: "محطات الطباعة", icon: Computer },
+    { href: "/printers", label: "الطابعات", icon: Printer },
+    { href: "/users", label: "المستخدمون", icon: Users },
+    { href: "/settings/category-stations", label: "توجيه الفئات", icon: Settings },
   ];
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       {/* Sidebar */}
-      <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col hidden md:flex">
+      <aside className="w-64 bg-sidebar border-l border-sidebar-border flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b border-sidebar-border bg-sidebar-primary/5">
-          <ChefHat className="h-6 w-6 text-sidebar-primary mr-3" />
+          <ChefHat className="h-6 w-6 text-sidebar-primary ms-3" />
           <span className="font-bold text-lg text-sidebar-foreground tracking-tight">Oven&amp;Scale</span>
         </div>
         
@@ -61,7 +61,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
                       : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   }`}
                 >
-                  <item.icon className={`h-5 w-5 mr-3 ${isActive ? "text-sidebar-primary" : ""}`} />
+                  <item.icon className={`h-5 w-5 ms-3 ${isActive ? "text-sidebar-primary" : ""}`} />
                   {item.label}
                 </div>
               </Link>
@@ -79,8 +79,8 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
             className="w-full justify-start text-muted-foreground hover:text-foreground bg-transparent border-sidebar-border hover:bg-sidebar-accent"
             onClick={logout}
           >
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout
+            <LogOut className="h-4 w-4 ms-2" />
+            تسجيل الخروج
           </Button>
         </div>
       </aside>
@@ -90,7 +90,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
         {/* Mobile Header */}
         <header className="h-16 md:hidden flex items-center justify-between px-4 border-b bg-card">
           <div className="flex items-center">
-            <ChefHat className="h-6 w-6 text-primary mr-2" />
+            <ChefHat className="h-6 w-6 text-primary ms-2" />
             <span className="font-bold text-lg">Oven&amp;Scale</span>
           </div>
         </header>

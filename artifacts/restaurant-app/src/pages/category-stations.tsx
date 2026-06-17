@@ -27,9 +27,9 @@ function CategoryStationRow({ category, stations }: { category: any, stations: a
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetPrintStationsByCategoryQueryKey(category.id) });
         setSelectedStationId("");
-        toast({ title: "Linked successfully" });
+        toast({ title: "تم الربط بنجاح" });
       },
-      onError: () => toast({ title: "Failed to link", variant: "destructive" })
+      onError: () => toast({ title: "فشل الربط", variant: "destructive" })
     });
   };
 
@@ -37,9 +37,9 @@ function CategoryStationRow({ category, stations }: { category: any, stations: a
     unlinkMutation.mutate({ categoryId: category.id, printStationId: stationId }, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetPrintStationsByCategoryQueryKey(category.id) });
-        toast({ title: "Unlinked successfully" });
+        toast({ title: "تم إلغاء الربط بنجاح" });
       },
-      onError: () => toast({ title: "Failed to unlink", variant: "destructive" })
+      onError: () => toast({ title: "فشل إلغاء الربط", variant: "destructive" })
     });
   };
 
@@ -56,13 +56,13 @@ function CategoryStationRow({ category, stations }: { category: any, stations: a
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         ) : linkedStations?.length === 0 ? (
-          <span className="text-sm text-muted-foreground italic">No stations</span>
+          <span className="text-sm text-muted-foreground italic">لا توجد محطات</span>
         ) : (
           linkedStations?.map((station: any) => (
             <Badge key={station.id} variant="secondary" className="flex items-center gap-1 py-1">
               {station.name}
               <Trash2 
-                className="h-3 w-3 cursor-pointer text-muted-foreground hover:text-destructive ml-1" 
+                className="h-3 w-3 cursor-pointer text-muted-foreground hover:text-destructive me-1" 
                 onClick={() => handleUnlink(station.id)}
               />
             </Badge>
@@ -73,14 +73,14 @@ function CategoryStationRow({ category, stations }: { category: any, stations: a
       <div className="w-1/3 flex justify-end items-center gap-2">
         <Select value={selectedStationId} onValueChange={setSelectedStationId}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Add to station..." />
+            <SelectValue placeholder="إضافة إلى محطة..." />
           </SelectTrigger>
           <SelectContent>
             {availableStations.map(s => (
               <SelectItem key={s.id} value={s.id!.toString()}>{s.name}</SelectItem>
             ))}
             {availableStations.length === 0 && (
-              <SelectItem value="none" disabled>All linked</SelectItem>
+              <SelectItem value="none" disabled>جميعها مرتبطة</SelectItem>
             )}
           </SelectContent>
         </Select>
@@ -103,30 +103,30 @@ export default function CategoryStations() {
   return (
     <div className="space-y-6 max-w-5xl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Category Routing</h1>
+        <h1 className="text-3xl font-bold tracking-tight">توجيه الفئات</h1>
         <p className="text-muted-foreground mt-2">
-          Map product categories to print stations (e.g. sending "Beverages" to the "Bar" printer).
+          اربط فئات المنتجات بمحطات الطباعة (مثل إرسال 'المشروبات' إلى طابعة 'البار').
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Routing Rules</CardTitle>
+          <CardTitle>قواعد التوجيه</CardTitle>
           <CardDescription>
-            When an order is sent to the kitchen, items will be printed at all stations linked to their category.
+            عند إرسال الطلب للمطبخ، تُطبع العناصر في كل المحطات المرتبطة بفئتها.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {(loadingCats || loadingStations) ? (
             <div className="flex justify-center p-8"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
           ) : categories?.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">No categories found. Create some first.</div>
+            <div className="text-center py-8 text-muted-foreground">لا توجد فئات. أنشئ فئات أولاً.</div>
           ) : (
             <div className="space-y-4">
               <div className="hidden md:flex justify-between px-4 pb-2 border-b text-sm font-medium text-muted-foreground">
-                <div className="w-1/3">Category</div>
-                <div className="w-1/3">Linked Stations</div>
-                <div className="w-1/3 text-right">Add Routing</div>
+                <div className="w-1/3">الفئة</div>
+                <div className="w-1/3">المحطات المرتبطة</div>
+                <div className="w-1/3 text-right">إضافة توجيه</div>
               </div>
               {categories?.map(category => (
                 <CategoryStationRow 

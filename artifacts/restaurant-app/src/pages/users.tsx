@@ -83,10 +83,10 @@ export default function UsersPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetUsersQueryKey() });
-          toast({ title: "User updated successfully." });
+          toast({ title: "تم تحديث المستخدم بنجاح." });
           setEditUser(null);
         },
-        onError: () => toast({ title: "Failed to update user.", variant: "destructive" }),
+        onError: () => toast({ title: "فشل تحديث المستخدم.", variant: "destructive" }),
       }
     );
   };
@@ -101,10 +101,10 @@ export default function UsersPage() {
       { id: passwordUser.id, data: pwdForm },
       {
         onSuccess: () => {
-          toast({ title: "Password changed successfully." });
+          toast({ title: "تم تغيير كلمة المرور بنجاح." });
           setPasswordUser(null);
         },
-        onError: () => toast({ title: "Failed to change password.", variant: "destructive" }),
+        onError: () => toast({ title: "فشل تغيير كلمة المرور.", variant: "destructive" }),
       }
     );
   };
@@ -120,10 +120,10 @@ export default function UsersPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetUsersQueryKey() });
-          toast({ title: "Roles updated successfully." });
+          toast({ title: "تم تحديث الأدوار بنجاح." });
           setRolesUser(null);
         },
-        onError: () => toast({ title: "Failed to update roles.", variant: "destructive" }),
+        onError: () => toast({ title: "فشل تحديث الأدوار.", variant: "destructive" }),
       }
     );
   };
@@ -134,10 +134,10 @@ export default function UsersPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetUsersQueryKey() });
-          toast({ title: "User deleted successfully." });
+          toast({ title: "تم حذف المستخدم بنجاح." });
           setDeleteUserObj(null);
         },
-        onError: () => toast({ title: "Failed to delete user.", variant: "destructive" }),
+        onError: () => toast({ title: "فشل حذف المستخدم.", variant: "destructive" }),
       }
     );
   };
@@ -154,10 +154,10 @@ export default function UsersPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+        <h1 className="text-3xl font-bold tracking-tight">المستخدمون</h1>
         <Button variant="default" disabled>
-          <UserPlus className="mr-2 h-4 w-4" />
-          Add User
+          <UserPlus className="ms-2 h-4 w-4" />
+          إضافة مستخدم
         </Button>
       </div>
 
@@ -165,11 +165,11 @@ export default function UsersPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Username</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Roles</TableHead>
-              <TableHead className="w-[80px]">Actions</TableHead>
+              <TableHead>اسم المستخدم</TableHead>
+              <TableHead>البريد الإلكتروني</TableHead>
+              <TableHead>الهاتف</TableHead>
+              <TableHead>الأدوار</TableHead>
+              <TableHead className="w-[80px]">الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -186,7 +186,7 @@ export default function UsersPage() {
             ) : users?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                  No users found
+                  لا يوجد مستخدمون
                 </TableCell>
               </TableRow>
             ) : (
@@ -214,16 +214,16 @@ export default function UsersPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleEditOpen(user)}>
-                          <Edit className="mr-2 h-4 w-4" /> Edit
+                          <Edit className="ms-2 h-4 w-4" /> تعديل
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleRolesOpen(user)}>
-                          <Shield className="mr-2 h-4 w-4" /> Manage Roles
+                          <Shield className="ms-2 h-4 w-4" /> إدارة الأدوار
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handlePasswordOpen(user)}>
-                          <Key className="mr-2 h-4 w-4" /> Change Password
+                          <Key className="ms-2 h-4 w-4" /> تغيير كلمة المرور
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setDeleteUserObj(user)} className="text-destructive focus:text-destructive">
-                          <Trash2 className="mr-2 h-4 w-4" /> Delete
+                          <Trash2 className="ms-2 h-4 w-4" /> حذف
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -239,18 +239,18 @@ export default function UsersPage() {
       <Dialog open={!!editUser} onOpenChange={(open) => !open && setEditUser(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit User</DialogTitle>
+            <DialogTitle>تعديل المستخدم</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label>Username</Label>
+              <Label>اسم المستخدم</Label>
               <Input
                 value={editForm.userName}
                 onChange={(e) => setEditForm({ ...editForm, userName: e.target.value })}
               />
             </div>
             <div className="space-y-2">
-              <Label>Email</Label>
+              <Label>البريد الإلكتروني</Label>
               <Input
                 type="email"
                 value={editForm.email}
@@ -258,7 +258,7 @@ export default function UsersPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Phone Number</Label>
+              <Label>رقم الهاتف</Label>
               <Input
                 value={editForm.phoneNumber}
                 onChange={(e) => setEditForm({ ...editForm, phoneNumber: e.target.value })}
@@ -266,9 +266,9 @@ export default function UsersPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditUser(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setEditUser(null)}>إلغاء</Button>
             <Button onClick={handleEditSubmit} disabled={updateUser.isPending}>
-              {updateUser.isPending ? "Saving..." : "Save changes"}
+              {updateUser.isPending ? "جارٍ الحفظ..." : "حفظ التغييرات"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -278,11 +278,11 @@ export default function UsersPage() {
       <Dialog open={!!passwordUser} onOpenChange={(open) => !open && setPasswordUser(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Change Password</DialogTitle>
+            <DialogTitle>تغيير كلمة المرور</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label>Current Password</Label>
+              <Label>كلمة المرور الحالية</Label>
               <Input
                 type="password"
                 value={pwdForm.currentPassword}
@@ -290,7 +290,7 @@ export default function UsersPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>New Password</Label>
+              <Label>كلمة المرور الجديدة</Label>
               <Input
                 type="password"
                 value={pwdForm.newPassword}
@@ -299,9 +299,9 @@ export default function UsersPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setPasswordUser(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setPasswordUser(null)}>إلغاء</Button>
             <Button onClick={handlePasswordSubmit} disabled={changePassword.isPending}>
-              {changePassword.isPending ? "Saving..." : "Change Password"}
+              {changePassword.isPending ? "جارٍ الحفظ..." : "تغيير كلمة المرور"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -311,7 +311,7 @@ export default function UsersPage() {
       <Dialog open={!!rolesUser} onOpenChange={(open) => !open && setRolesUser(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Manage Roles</DialogTitle>
+            <DialogTitle>إدارة الأدوار</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             {rolesList?.map((role) => (
@@ -327,14 +327,14 @@ export default function UsersPage() {
                     }
                   }}
                 />
-                <Label htmlFor={`role-${role}`}>{role}</Label>
+                <Label htmlFor={`role-${role}`} className="ps-2">{role}</Label>
               </div>
             ))}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setRolesUser(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setRolesUser(null)}>إلغاء</Button>
             <Button onClick={handleRolesSubmit} disabled={updateRoles.isPending}>
-              {updateRoles.isPending ? "Saving..." : "Save Roles"}
+              {updateRoles.isPending ? "جارٍ الحفظ..." : "حفظ الأدوار"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -344,16 +344,15 @@ export default function UsersPage() {
       <AlertDialog open={!!deleteUserObj} onOpenChange={(open) => !open && setDeleteUserObj(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>هل أنت متأكد تماماً؟</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the user
-              account and remove their data from our servers.
+              لا يمكن التراجع عن هذا الإجراء. سيؤدي ذلك إلى حذف حساب المستخدم نهائياً.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeleteUserObj(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setDeleteUserObj(null)}>إلغاء</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteSubmit} className="bg-destructive text-destructive-foreground">
-              {deleteUser.isPending ? "Deleting..." : "Delete"}
+              {deleteUser.isPending ? "جارٍ الحذف..." : "حذف"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

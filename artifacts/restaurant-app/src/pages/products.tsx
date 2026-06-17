@@ -15,10 +15,10 @@ import { Plus, Pencil, Trash2, Loader2, Image as ImageIcon } from "lucide-react"
 import { useToast } from "@/hooks/use-toast";
 
 const productSchema = z.object({
-  name: z.string().min(1, "Name is required").max(150),
-  categoryId: z.coerce.number().min(1, "Category is required"),
-  costPrice: z.coerce.number().min(0.01, "Cost price must be > 0"),
-  salePrice: z.coerce.number().min(0.01, "Sale price must be > 0"),
+  name: z.string().min(1, "الاسم مطلوب").max(150),
+  categoryId: z.coerce.number().min(1, "الفئة مطلوبة"),
+  costPrice: z.coerce.number().min(0.01, "سعر التكلفة يجب أن يكون أكبر من 0"),
+  salePrice: z.coerce.number().min(0.01, "سعر البيع يجب أن يكون أكبر من 0"),
   barCode: z.string().max(50).optional().nullable(),
   description: z.string().max(500).optional().nullable(),
   imageUrl: z.string().max(500).optional().nullable(),
@@ -55,9 +55,9 @@ export default function Products() {
         queryClient.invalidateQueries({ queryKey: getGetProductsQueryKey() });
         setIsCreateOpen(false);
         form.reset();
-        toast({ title: "Product created successfully" });
+        toast({ title: "تم إنشاء المنتج بنجاح" });
       },
-      onError: () => toast({ title: "Failed to create product", variant: "destructive" })
+      onError: () => toast({ title: "فشلت العملية على المنتج", variant: "destructive" })
     });
   };
 
@@ -67,20 +67,20 @@ export default function Products() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetProductsQueryKey() });
         setEditingProduct(null);
-        toast({ title: "Product updated successfully" });
+        toast({ title: "تم تحديث المنتج بنجاح" });
       },
-      onError: () => toast({ title: "Failed to update product", variant: "destructive" })
+      onError: () => toast({ title: "فشلت العملية على المنتج", variant: "destructive" })
     });
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this product?")) {
+    if (confirm("هل أنت متأكد من حذف هذا المنتج؟")) {
       deleteMutation.mutate({ id }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetProductsQueryKey() });
-          toast({ title: "Product deleted successfully" });
+          toast({ title: "تم حذف المنتج بنجاح" });
         },
-        onError: () => toast({ title: "Failed to delete product", variant: "destructive" })
+        onError: () => toast({ title: "فشلت العملية على المنتج", variant: "destructive" })
       });
     }
   };
@@ -103,32 +103,32 @@ export default function Products() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+        <h1 className="text-3xl font-bold tracking-tight">المنتجات</h1>
         
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" /> Add Product</Button>
+            <Button><Plus className="ms-2 h-4 w-4" /> إضافة منتج</Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Create New Product</DialogTitle>
+              <DialogTitle>إنشاء منتج جديد</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl><Input placeholder="Product name" {...field} /></FormControl>
+                      <FormLabel>الاسم</FormLabel>
+                      <FormControl><Input placeholder="اسم المنتج" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="categoryId" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category</FormLabel>
+                      <FormLabel>الفئة</FormLabel>
                       <Select onValueChange={(v) => field.onChange(parseInt(v))} defaultValue={field.value ? field.value.toString() : ""}>
                         <FormControl>
-                          <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+                          <SelectTrigger><SelectValue placeholder="اختر الفئة" /></SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {categories?.map(c => <SelectItem key={c.id} value={c.id!.toString()}>{c.name}</SelectItem>)}
@@ -139,44 +139,44 @@ export default function Products() {
                   )} />
                   <FormField control={form.control} name="salePrice" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Sale Price ($)</FormLabel>
+                      <FormLabel>سعر البيع</FormLabel>
                       <FormControl><Input type="number" step="0.01" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="costPrice" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Price ($)</FormLabel>
+                      <FormLabel>سعر التكلفة</FormLabel>
                       <FormControl><Input type="number" step="0.01" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="barCode" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Barcode / SKU (Optional)</FormLabel>
+                      <FormLabel>الباركود / الرمز (اختياري)</FormLabel>
                       <FormControl><Input placeholder="SKU" {...field} value={field.value || ""} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="imageUrl" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Image URL (Optional)</FormLabel>
+                      <FormLabel>رابط الصورة (اختياري)</FormLabel>
                       <FormControl><Input placeholder="https://..." {...field} value={field.value || ""} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="description" render={({ field }) => (
                     <FormItem className="col-span-2">
-                      <FormLabel>Description (Optional)</FormLabel>
-                      <FormControl><Textarea placeholder="Details..." {...field} value={field.value || ""} /></FormControl>
+                      <FormLabel>الوصف (اختياري)</FormLabel>
+                      <FormControl><Textarea placeholder="التفاصيل..." {...field} value={field.value || ""} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                 </div>
                 <DialogFooter>
                   <Button type="submit" disabled={createMutation.isPending}>
-                    {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Create
+                    {createMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                    إنشاء
                   </Button>
                 </DialogFooter>
               </form>
@@ -189,19 +189,19 @@ export default function Products() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16">Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead className="text-right">Cost</TableHead>
-              <TableHead className="text-right">Price</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-16">الصورة</TableHead>
+              <TableHead>الاسم</TableHead>
+              <TableHead>الفئة</TableHead>
+              <TableHead className="text-right">التكلفة</TableHead>
+              <TableHead className="text-right">السعر</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">Loading products...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">جارٍ تحميل المنتجات...</TableCell></TableRow>
             ) : products?.length === 0 ? (
-              <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No products found</TableCell></TableRow>
+              <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">لا توجد منتجات</TableCell></TableRow>
             ) : (
               products?.map((product) => (
                 <TableRow key={product.id}>
@@ -222,8 +222,8 @@ export default function Products() {
                   <TableCell>{product.categoryName || "-"}</TableCell>
                   <TableCell className="text-right">{formatCurrency(product.costPrice || 0)}</TableCell>
                   <TableCell className="text-right font-medium">{formatCurrency(product.salePrice || 0)}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell>
+                    <div className="flex justify-start gap-2">
                       <Button variant="outline" size="icon" onClick={() => openEditDialog(product)}>
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -242,24 +242,24 @@ export default function Products() {
       <Dialog open={!!editingProduct} onOpenChange={(open) => !open && setEditingProduct(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Edit Product</DialogTitle>
+            <DialogTitle>تعديل المنتج</DialogTitle>
           </DialogHeader>
           <Form {...editForm}>
             <form onSubmit={editForm.handleSubmit(handleEdit)} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <FormField control={editForm.control} name="name" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl><Input placeholder="Product name" {...field} /></FormControl>
+                    <FormLabel>الاسم</FormLabel>
+                    <FormControl><Input placeholder="اسم المنتج" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={editForm.control} name="categoryId" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>الفئة</FormLabel>
                     <Select onValueChange={(v) => field.onChange(parseInt(v))} defaultValue={field.value ? field.value.toString() : ""}>
                       <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="اختر الفئة" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {categories?.map(c => <SelectItem key={c.id} value={c.id!.toString()}>{c.name}</SelectItem>)}
@@ -270,44 +270,44 @@ export default function Products() {
                 )} />
                 <FormField control={editForm.control} name="salePrice" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Sale Price ($)</FormLabel>
+                    <FormLabel>سعر البيع</FormLabel>
                     <FormControl><Input type="number" step="0.01" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={editForm.control} name="costPrice" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cost Price ($)</FormLabel>
+                    <FormLabel>سعر التكلفة</FormLabel>
                     <FormControl><Input type="number" step="0.01" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={editForm.control} name="barCode" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Barcode / SKU (Optional)</FormLabel>
+                    <FormLabel>الباركود / الرمز (اختياري)</FormLabel>
                     <FormControl><Input placeholder="SKU" {...field} value={field.value || ""} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={editForm.control} name="imageUrl" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Image URL (Optional)</FormLabel>
+                    <FormLabel>رابط الصورة (اختياري)</FormLabel>
                     <FormControl><Input placeholder="https://..." {...field} value={field.value || ""} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={editForm.control} name="description" render={({ field }) => (
                   <FormItem className="col-span-2">
-                    <FormLabel>Description (Optional)</FormLabel>
-                    <FormControl><Textarea placeholder="Details..." {...field} value={field.value || ""} /></FormControl>
+                    <FormLabel>الوصف (اختياري)</FormLabel>
+                    <FormControl><Textarea placeholder="التفاصيل..." {...field} value={field.value || ""} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
               </div>
               <DialogFooter>
                 <Button type="submit" disabled={updateMutation.isPending}>
-                  {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Changes
+                  {updateMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                  حفظ التغييرات
                 </Button>
               </DialogFooter>
             </form>

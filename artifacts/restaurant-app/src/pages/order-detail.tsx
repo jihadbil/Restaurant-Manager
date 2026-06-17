@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Loader2, FileText, CheckCircle2, Clock, XCircle, Printer } from "lucide-react";
+import { ArrowRight, Loader2, FileText, CheckCircle2, Clock, XCircle, Printer } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { printReceipt } from "@/lib/print-receipt";
@@ -25,20 +25,20 @@ export default function OrderDetail() {
 
   const getStatusBadge = (status?: number | null) => {
     switch (status) {
-      case 0: return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">Pending</Badge>;
-      case 1: return <Badge className="bg-blue-500 hover:bg-blue-600 text-white">In Progress</Badge>;
-      case 2: return <Badge className="bg-green-500 hover:bg-green-600 text-white">Completed</Badge>;
-      case 3: return <Badge className="bg-red-500 hover:bg-red-600 text-white">Cancelled</Badge>;
-      default: return <Badge variant="outline">Unknown</Badge>;
+      case 0: return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">معلّق</Badge>;
+      case 1: return <Badge className="bg-blue-500 hover:bg-blue-600 text-white">جارٍ</Badge>;
+      case 2: return <Badge className="bg-green-500 hover:bg-green-600 text-white">مكتمل</Badge>;
+      case 3: return <Badge className="bg-red-500 hover:bg-red-600 text-white">ملغى</Badge>;
+      default: return <Badge variant="outline">غير معروف</Badge>;
     }
   };
 
   const getTypeBadge = (type?: number | null) => {
     switch (type) {
-      case 0: return <Badge className="bg-purple-500 hover:bg-purple-600 text-white">Dine In</Badge>;
-      case 1: return <Badge className="bg-orange-500 hover:bg-orange-600 text-white">Takeout</Badge>;
-      case 2: return <Badge className="bg-teal-500 hover:bg-teal-600 text-white">Delivery</Badge>;
-      default: return <Badge variant="outline">Unknown</Badge>;
+      case 0: return <Badge className="bg-purple-500 hover:bg-purple-600 text-white">داخل المطعم</Badge>;
+      case 1: return <Badge className="bg-orange-500 hover:bg-orange-600 text-white">للخارج</Badge>;
+      case 2: return <Badge className="bg-teal-500 hover:bg-teal-600 text-white">توصيل</Badge>;
+      default: return <Badge variant="outline">غير معروف</Badge>;
     }
   };
 
@@ -55,9 +55,9 @@ export default function OrderDetail() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetOrderByIdQueryKey(id) });
         queryClient.invalidateQueries({ queryKey: getGetOrdersQueryKey() });
-        toast({ title: "Order status updated" });
+        toast({ title: "تم تحديث حالة الطلب" });
       },
-      onError: () => toast({ title: "Failed to update order status", variant: "destructive" })
+      onError: () => toast({ title: "فشل تحديث حالة الطلب", variant: "destructive" })
     });
   };
 
@@ -66,7 +66,7 @@ export default function OrderDetail() {
   }
 
   if (!order) {
-    return <div className="text-center p-8 text-muted-foreground">Order not found</div>;
+    return <div className="text-center p-8 text-muted-foreground">الطلب غير موجود</div>;
   }
 
   return (
@@ -75,10 +75,10 @@ export default function OrderDetail() {
         <div className="flex items-center space-x-4">
           <Link href="/orders">
             <Button variant="outline" size="icon">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold tracking-tight">Order #{order.orderNumber}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">طلب #{order.orderNumber}</h1>
           {getStatusBadge(order.orderStatus)}
           {getTypeBadge(order.orderType)}
         </div>
@@ -86,24 +86,24 @@ export default function OrderDetail() {
         <div className="flex space-x-2">
           {order.orderStatus === 0 && (
             <Button variant="outline" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50" onClick={() => updateStatus(1)}>
-              <Clock className="mr-2 h-4 w-4" /> Start Prep
+              <Clock className="ms-2 h-4 w-4" /> بدء التحضير
             </Button>
           )}
           {(order.orderStatus === 0 || order.orderStatus === 1) && (
             <Button variant="outline" className="text-green-600 hover:text-green-700 hover:bg-green-50" onClick={() => updateStatus(2)}>
-              <CheckCircle2 className="mr-2 h-4 w-4" /> Complete
+              <CheckCircle2 className="ms-2 h-4 w-4" /> اكتمل
             </Button>
           )}
           {order.orderStatus !== 3 && order.orderStatus !== 2 && (
             <Button variant="outline" className="text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => updateStatus(3)}>
-              <XCircle className="mr-2 h-4 w-4" /> Cancel
+              <XCircle className="ms-2 h-4 w-4" /> إلغاء
             </Button>
           )}
           <Button variant="outline" onClick={() => printReceipt(order, 'customer')}>
-            <FileText className="mr-2 h-4 w-4" /> Customer Receipt
+            <FileText className="ms-2 h-4 w-4" /> وصل العميل
           </Button>
           <Button variant="outline" onClick={() => printReceipt(order, 'kitchen')}>
-            <Printer className="mr-2 h-4 w-4" /> Kitchen Ticket
+            <Printer className="ms-2 h-4 w-4" /> تذكرة المطبخ
           </Button>
         </div>
       </div>
@@ -112,16 +112,16 @@ export default function OrderDetail() {
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Order Items</CardTitle>
+              <CardTitle>عناصر الطلب</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Product</TableHead>
-                    <TableHead className="text-right">Price</TableHead>
-                    <TableHead className="text-right">Qty</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
+                    <TableHead>المنتج</TableHead>
+                    <TableHead className="text-right">السعر</TableHead>
+                    <TableHead className="text-right">الكمية</TableHead>
+                    <TableHead className="text-right">الإجمالي</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -137,7 +137,7 @@ export default function OrderDetail() {
                     </TableRow>
                   ))}
                   {(!order.orderItems || order.orderItems.length === 0) && (
-                    <TableRow><TableCell colSpan={4} className="text-center py-4">No items</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={4} className="text-center py-4">لم تتم إضافة عناصر بعد. اختر منتجاً أعلاه.</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -147,7 +147,7 @@ export default function OrderDetail() {
           {order.notes && (
             <Card>
               <CardHeader>
-                <CardTitle>Order Notes</CardTitle>
+                <CardTitle>ملاحظات الطلب</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="whitespace-pre-wrap">{order.notes}</p>
@@ -159,35 +159,35 @@ export default function OrderDetail() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Summary</CardTitle>
+              <CardTitle>الملخص</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Date</span>
+                <span className="text-muted-foreground">التاريخ</span>
                 <span>{order.date ? format(new Date(order.date), "MMM d, yyyy h:mm a") : "-"}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Cashier</span>
+                <span className="text-muted-foreground">أمين الصندوق</span>
                 <span>{order.userName || "-"}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Payment Method</span>
+                <span className="text-muted-foreground">طريقة الدفع</span>
                 <span>{order.paymentMethodName || "-"}</span>
               </div>
               
               <div className="border-t pt-4 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal</span>
+                  <span className="text-muted-foreground">المجموع الجزئي</span>
                   <span>{formatCurrency((order.total || 0) + (order.discount || 0))}</span>
                 </div>
                 {order.discount! > 0 && (
                   <div className="flex justify-between text-destructive">
-                    <span>Discount</span>
+                    <span>الخصم</span>
                     <span>-{formatCurrency(order.discount || 0)}</span>
                   </div>
                 )}
                 <div className="flex justify-between font-bold text-lg border-t pt-2">
-                  <span>Total</span>
+                  <span>الإجمالي</span>
                   <span className="text-primary">{formatCurrency(order.total || 0)}</span>
                 </div>
               </div>

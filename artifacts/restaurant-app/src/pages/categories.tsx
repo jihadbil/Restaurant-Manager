@@ -13,7 +13,7 @@ import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const categorySchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
+  name: z.string().min(1, "الاسم مطلوب").max(100),
 });
 
 type CategoryFormValues = z.infer<typeof categorySchema>;
@@ -46,9 +46,9 @@ export default function Categories() {
         queryClient.invalidateQueries({ queryKey: getGetCategoriesQueryKey() });
         setIsCreateOpen(false);
         form.reset();
-        toast({ title: "Category created successfully" });
+        toast({ title: "تم إنشاء الفئة بنجاح" });
       },
-      onError: () => toast({ title: "Failed to create category", variant: "destructive" })
+      onError: () => toast({ title: "فشل إنشاء الفئة", variant: "destructive" })
     });
   };
 
@@ -58,20 +58,20 @@ export default function Categories() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetCategoriesQueryKey() });
         setEditingCategory(null);
-        toast({ title: "Category updated successfully" });
+        toast({ title: "تم تحديث الفئة بنجاح" });
       },
-      onError: () => toast({ title: "Failed to update category", variant: "destructive" })
+      onError: () => toast({ title: "فشل تحديث الفئة", variant: "destructive" })
     });
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this category?")) {
+    if (confirm("هل أنت متأكد من حذف هذه الفئة؟")) {
       deleteMutation.mutate({ id }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetCategoriesQueryKey() });
-          toast({ title: "Category deleted successfully" });
+          toast({ title: "تم حذف الفئة بنجاح" });
         },
-        onError: () => toast({ title: "Failed to delete category", variant: "destructive" })
+        onError: () => toast({ title: "فشل حذف الفئة", variant: "destructive" })
       });
     }
   };
@@ -84,29 +84,29 @@ export default function Categories() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Categories</h1>
+        <h1 className="text-3xl font-bold tracking-tight">الفئات</h1>
         
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" /> Add Category</Button>
+            <Button><Plus className="ms-2 h-4 w-4" /> إضافة فئة</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Category</DialogTitle>
+              <DialogTitle>إنشاء فئة جديدة</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-4">
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl><Input placeholder="Category name" {...field} /></FormControl>
+                    <FormLabel>الاسم</FormLabel>
+                    <FormControl><Input placeholder="اسم الفئة" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <DialogFooter>
                   <Button type="submit" disabled={createMutation.isPending}>
-                    {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Create
+                    {createMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                    إنشاء
                   </Button>
                 </DialogFooter>
               </form>
@@ -119,23 +119,23 @@ export default function Categories() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead className="w-full">Name</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>الرقم</TableHead>
+              <TableHead className="w-full">الاسم</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">Loading categories...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">جارٍ تحميل الفئات...</TableCell></TableRow>
             ) : categories?.length === 0 ? (
-              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">No categories found</TableCell></TableRow>
+              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">لا توجد فئات</TableCell></TableRow>
             ) : (
               categories?.map((category) => (
                 <TableRow key={category.id}>
                   <TableCell>{category.id}</TableCell>
                   <TableCell className="font-medium">{category.name}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell>
+                    <div className="flex justify-start gap-2">
                       <Button variant="outline" size="icon" onClick={() => openEditDialog({id: category.id!, name: category.name || ""})}>
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -154,21 +154,21 @@ export default function Categories() {
       <Dialog open={!!editingCategory} onOpenChange={(open) => !open && setEditingCategory(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Category</DialogTitle>
+            <DialogTitle>تعديل الفئة</DialogTitle>
           </DialogHeader>
           <Form {...editForm}>
             <form onSubmit={editForm.handleSubmit(handleEdit)} className="space-y-4">
               <FormField control={editForm.control} name="name" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl><Input placeholder="Category name" {...field} /></FormControl>
+                  <FormLabel>الاسم</FormLabel>
+                  <FormControl><Input placeholder="اسم الفئة" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <DialogFooter>
                 <Button type="submit" disabled={updateMutation.isPending}>
-                  {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Changes
+                  {updateMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                  حفظ التغييرات
                 </Button>
               </DialogFooter>
             </form>

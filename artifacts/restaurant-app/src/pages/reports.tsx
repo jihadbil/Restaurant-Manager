@@ -88,19 +88,19 @@ export default function Reports() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Reports &amp; Statistics</h1>
+        <h1 className="text-3xl font-bold tracking-tight">التقارير والإحصائيات</h1>
         
         <div className="flex items-end gap-2 bg-card p-3 rounded-lg border">
           <div className="space-y-1">
-            <Label>Start Date</Label>
+            <Label>تاريخ البداية</Label>
             <Input type="date" value={startDateStr} onChange={(e) => setStartDateStr(e.target.value)} />
           </div>
           <div className="space-y-1">
-            <Label>End Date</Label>
+            <Label>تاريخ النهاية</Label>
             <Input type="date" value={endDateStr} onChange={(e) => setEndDateStr(e.target.value)} />
           </div>
-          <Button onClick={handleApply}>Apply</Button>
-          <Button variant="outline" onClick={handleThisMonth}>This Month</Button>
+          <Button onClick={handleApply}>تطبيق</Button>
+          <Button variant="outline" onClick={handleThisMonth}>هذا الشهر</Button>
         </div>
       </div>
 
@@ -111,27 +111,27 @@ export default function Reports() {
       ) : compReport ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Revenue</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">إجمالي الإيرادات</CardTitle></CardHeader>
             <CardContent><div className="text-2xl font-bold">{formatCurrency(compReport.totalSales || 0)}</div></CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Profit</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">إجمالي الأرباح</CardTitle></CardHeader>
             <CardContent><div className="text-2xl font-bold text-green-600">{formatCurrency(compReport.totalProfit || 0)}</div></CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Cost</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">إجمالي التكاليف</CardTitle></CardHeader>
             <CardContent><div className="text-2xl font-bold text-red-500">{formatCurrency(compReport.totalCost || 0)}</div></CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Orders</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">إجمالي الطلبات</CardTitle></CardHeader>
             <CardContent><div className="text-2xl font-bold">{formatNumber(compReport.totalOrdersCount || 0)}</div></CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Avg Order Value</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">متوسط قيمة الطلب</CardTitle></CardHeader>
             <CardContent><div className="text-2xl font-bold">{formatCurrency(compReport.averageOrderValue || 0)}</div></CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Cancelled Orders</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">الطلبات الملغاة</CardTitle></CardHeader>
             <CardContent><div className="text-2xl font-bold">{formatNumber(compReport.cancelledOrdersCount || 0)}</div></CardContent>
           </Card>
         </div>
@@ -139,16 +139,16 @@ export default function Reports() {
 
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="products">Products</TabsTrigger>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
-          <TabsTrigger value="payment">Payment Methods</TabsTrigger>
-          <TabsTrigger value="cancelled">Cancelled Orders</TabsTrigger>
+          <TabsTrigger value="overview">نظرة عامة</TabsTrigger>
+          <TabsTrigger value="products">المنتجات</TabsTrigger>
+          <TabsTrigger value="categories">الفئات</TabsTrigger>
+          <TabsTrigger value="payment">طرق الدفع</TabsTrigger>
+          <TabsTrigger value="cancelled">الطلبات الملغاة</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <Card>
-            <CardHeader><CardTitle>Daily Sales</CardTitle></CardHeader>
+            <CardHeader><CardTitle>المبيعات اليومية</CardTitle></CardHeader>
             <CardContent className="h-[400px]">
               {isDailyLoading ? (
                 <div className="h-full flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
@@ -160,19 +160,19 @@ export default function Reports() {
                     <YAxis />
                     <Tooltip formatter={(value: number) => formatCurrency(value)} />
                     <Legend />
-                    <Line type="monotone" dataKey="totalSales" name="Sales" stroke="#f59e0b" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="totalProfit" name="Profit" stroke="#22c55e" />
+                    <Line type="monotone" dataKey="totalSales" name="المبيعات" stroke="#f59e0b" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="totalProfit" name="الأرباح" stroke="#22c55e" />
                   </LineChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">No data available</div>
+                <div className="h-full flex items-center justify-center text-muted-foreground">لا توجد بيانات</div>
               )}
             </CardContent>
           </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
-              <CardHeader><CardTitle>Order Status Breakdown</CardTitle></CardHeader>
+              <CardHeader><CardTitle>توزيع حالات الطلبات</CardTitle></CardHeader>
               <CardContent className="h-[300px]">
                 {compReport?.orderStatusSummary && compReport.orderStatusSummary.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
@@ -186,13 +186,13 @@ export default function Reports() {
                     </PieChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="h-full flex items-center justify-center text-muted-foreground">No data available</div>
+                  <div className="h-full flex items-center justify-center text-muted-foreground">لا توجد بيانات</div>
                 )}
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader><CardTitle>Order Type Breakdown</CardTitle></CardHeader>
+              <CardHeader><CardTitle>توزيع أنواع الطلبات</CardTitle></CardHeader>
               <CardContent className="h-[300px]">
                 {compReport?.orderTypeSummary && compReport.orderTypeSummary.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
@@ -206,7 +206,7 @@ export default function Reports() {
                     </PieChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="h-full flex items-center justify-center text-muted-foreground">No data available</div>
+                  <div className="h-full flex items-center justify-center text-muted-foreground">لا توجد بيانات</div>
                 )}
               </CardContent>
             </Card>
@@ -215,7 +215,7 @@ export default function Reports() {
 
         <TabsContent value="products" className="space-y-4">
           <Card>
-            <CardHeader><CardTitle>Best Selling Products</CardTitle></CardHeader>
+            <CardHeader><CardTitle>الأكثر مبيعاً (منتجات)</CardTitle></CardHeader>
             <CardContent className="h-[400px]">
               {isProductsLoading ? (
                 <div className="h-full flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
@@ -225,14 +225,14 @@ export default function Reports() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
                     <YAxis dataKey="name" type="category" width={150} tick={{fontSize: 12}} />
-                    <Tooltip formatter={(value: number, name: string) => name === 'Revenue' ? formatCurrency(value) : value} />
+                    <Tooltip formatter={(value: number, name: string) => name === 'الإيرادات' ? formatCurrency(value) : value} />
                     <Legend />
-                    <Bar dataKey="quantitySold" name="Quantity Sold" fill="#f59e0b" />
-                    <Bar dataKey="totalRevenue" name="Revenue" fill="#22c55e" />
+                    <Bar dataKey="quantitySold" name="الكمية المباعة" fill="#f59e0b" />
+                    <Bar dataKey="totalRevenue" name="الإيرادات" fill="#22c55e" />
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">No data available</div>
+                <div className="h-full flex items-center justify-center text-muted-foreground">لا توجد بيانات</div>
               )}
             </CardContent>
           </Card>
@@ -242,12 +242,12 @@ export default function Reports() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Product ID</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead className="text-right">Quantity Sold</TableHead>
-                    <TableHead className="text-right">Total Revenue</TableHead>
-                    <TableHead className="text-right">Total Cost</TableHead>
-                    <TableHead className="text-right">Total Profit</TableHead>
+                    <TableHead>رقم المنتج</TableHead>
+                    <TableHead>الاسم</TableHead>
+                    <TableHead className="text-right">الكمية المباعة</TableHead>
+                    <TableHead className="text-right">إجمالي الإيرادات</TableHead>
+                    <TableHead className="text-right">إجمالي التكاليف</TableHead>
+                    <TableHead className="text-right">إجمالي الأرباح</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -262,7 +262,7 @@ export default function Reports() {
                     </TableRow>
                   ))}
                   {!products?.length && !isProductsLoading && (
-                    <TableRow><TableCell colSpan={6} className="text-center py-4">No data</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={6} className="text-center py-4">لا توجد بيانات</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -272,7 +272,7 @@ export default function Reports() {
 
         <TabsContent value="categories" className="space-y-4">
           <Card>
-            <CardHeader><CardTitle>Best Selling Categories</CardTitle></CardHeader>
+            <CardHeader><CardTitle>الأكثر مبيعاً (فئات)</CardTitle></CardHeader>
             <CardContent className="h-[400px]">
               {isCategoriesLoading ? (
                 <div className="h-full flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
@@ -282,14 +282,14 @@ export default function Reports() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
                     <YAxis dataKey="name" type="category" width={150} tick={{fontSize: 12}} />
-                    <Tooltip formatter={(value: number, name: string) => name === 'Revenue' ? formatCurrency(value) : value} />
+                    <Tooltip formatter={(value: number, name: string) => name === 'الإيرادات' ? formatCurrency(value) : value} />
                     <Legend />
-                    <Bar dataKey="quantitySold" name="Quantity Sold" fill="#f59e0b" />
-                    <Bar dataKey="totalRevenue" name="Revenue" fill="#22c55e" />
+                    <Bar dataKey="quantitySold" name="الكمية المباعة" fill="#f59e0b" />
+                    <Bar dataKey="totalRevenue" name="الإيرادات" fill="#22c55e" />
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">No data available</div>
+                <div className="h-full flex items-center justify-center text-muted-foreground">لا توجد بيانات</div>
               )}
             </CardContent>
           </Card>
@@ -299,11 +299,11 @@ export default function Reports() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Category</TableHead>
-                    <TableHead className="text-right">Quantity Sold</TableHead>
-                    <TableHead className="text-right">Total Revenue</TableHead>
-                    <TableHead className="text-right">Total Cost</TableHead>
-                    <TableHead className="text-right">Total Profit</TableHead>
+                    <TableHead>الفئة</TableHead>
+                    <TableHead className="text-right">الكمية المباعة</TableHead>
+                    <TableHead className="text-right">إجمالي الإيرادات</TableHead>
+                    <TableHead className="text-right">إجمالي التكاليف</TableHead>
+                    <TableHead className="text-right">إجمالي الأرباح</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -317,7 +317,7 @@ export default function Reports() {
                     </TableRow>
                   ))}
                   {!categories?.length && !isCategoriesLoading && (
-                    <TableRow><TableCell colSpan={5} className="text-center py-4">No data</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={5} className="text-center py-4">لا توجد بيانات</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -327,7 +327,7 @@ export default function Reports() {
 
         <TabsContent value="payment" className="space-y-4">
           <Card>
-            <CardHeader><CardTitle>Sales by Payment Method</CardTitle></CardHeader>
+            <CardHeader><CardTitle>المبيعات حسب طريقة الدفع</CardTitle></CardHeader>
             <CardContent className="h-[400px]">
               {isPaymentMethodsLoading ? (
                 <div className="h-full flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
@@ -343,7 +343,7 @@ export default function Reports() {
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">No data available</div>
+                <div className="h-full flex items-center justify-center text-muted-foreground">لا توجد بيانات</div>
               )}
             </CardContent>
           </Card>
@@ -353,9 +353,9 @@ export default function Reports() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Payment Method</TableHead>
-                    <TableHead className="text-right">Total Orders</TableHead>
-                    <TableHead className="text-right">Total Sales</TableHead>
+                    <TableHead>طريقة الدفع</TableHead>
+                    <TableHead className="text-right">إجمالي الطلبات</TableHead>
+                    <TableHead className="text-right">إجمالي المبيعات</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -367,7 +367,7 @@ export default function Reports() {
                     </TableRow>
                   ))}
                   {!paymentMethods?.length && !isPaymentMethodsLoading && (
-                    <TableRow><TableCell colSpan={3} className="text-center py-4">No data</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={3} className="text-center py-4">لا توجد بيانات</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -377,7 +377,7 @@ export default function Reports() {
 
         <TabsContent value="cancelled" className="space-y-4">
           <Card>
-            <CardHeader><CardTitle>Cancelled Orders</CardTitle></CardHeader>
+            <CardHeader><CardTitle>الطلبات الملغاة</CardTitle></CardHeader>
             <CardContent className="p-0">
               {isCancelledLoading ? (
                 <div className="flex justify-center p-8"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
@@ -385,11 +385,11 @@ export default function Reports() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Order #</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Cashier</TableHead>
-                      <TableHead className="text-right">Total</TableHead>
-                      <TableHead>Notes</TableHead>
+                      <TableHead>طلب #</TableHead>
+                      <TableHead>التاريخ</TableHead>
+                      <TableHead>الكاشير</TableHead>
+                      <TableHead className="text-right">الإجمالي</TableHead>
+                      <TableHead>الملاحظات</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -403,7 +403,7 @@ export default function Reports() {
                       </TableRow>
                     ))}
                     {!cancelledOrders?.length && (
-                      <TableRow><TableCell colSpan={5} className="text-center py-4">No cancelled orders</TableCell></TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center py-4">لا توجد طلبات ملغاة</TableCell></TableRow>
                     )}
                   </TableBody>
                 </Table>

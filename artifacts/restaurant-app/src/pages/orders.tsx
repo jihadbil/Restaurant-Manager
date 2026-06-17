@@ -17,13 +17,13 @@ export default function Orders() {
   const deleteMutation = useDeleteOrder();
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this order?")) {
+    if (confirm("هل أنت متأكد من حذف هذا الطلب؟")) {
       deleteMutation.mutate({ id }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetOrdersQueryKey() });
-          toast({ title: "Order deleted successfully" });
+          toast({ title: "تم حذف الطلب بنجاح" });
         },
-        onError: () => toast({ title: "Failed to delete order", variant: "destructive" })
+        onError: () => toast({ title: "فشل حذف الطلب", variant: "destructive" })
       });
     }
   };
@@ -34,29 +34,29 @@ export default function Orders() {
 
   const getStatusBadge = (status?: number | null) => {
     switch (status) {
-      case 0: return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">Pending</Badge>;
-      case 1: return <Badge className="bg-blue-500 hover:bg-blue-600 text-white">In Progress</Badge>;
-      case 2: return <Badge className="bg-green-500 hover:bg-green-600 text-white">Completed</Badge>;
-      case 3: return <Badge className="bg-red-500 hover:bg-red-600 text-white">Cancelled</Badge>;
-      default: return <Badge variant="outline">Unknown</Badge>;
+      case 0: return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">معلّق</Badge>;
+      case 1: return <Badge className="bg-blue-500 hover:bg-blue-600 text-white">جارٍ</Badge>;
+      case 2: return <Badge className="bg-green-500 hover:bg-green-600 text-white">مكتمل</Badge>;
+      case 3: return <Badge className="bg-red-500 hover:bg-red-600 text-white">ملغى</Badge>;
+      default: return <Badge variant="outline">غير معروف</Badge>;
     }
   };
 
   const getTypeBadge = (type?: number | null) => {
     switch (type) {
-      case 0: return <Badge className="bg-purple-500 hover:bg-purple-600 text-white">Dine In</Badge>;
-      case 1: return <Badge className="bg-orange-500 hover:bg-orange-600 text-white">Takeout</Badge>;
-      case 2: return <Badge className="bg-teal-500 hover:bg-teal-600 text-white">Delivery</Badge>;
-      default: return <Badge variant="outline">Unknown</Badge>;
+      case 0: return <Badge className="bg-purple-500 hover:bg-purple-600 text-white">داخل المطعم</Badge>;
+      case 1: return <Badge className="bg-orange-500 hover:bg-orange-600 text-white">للخارج</Badge>;
+      case 2: return <Badge className="bg-teal-500 hover:bg-teal-600 text-white">توصيل</Badge>;
+      default: return <Badge variant="outline">غير معروف</Badge>;
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Orders</h1>
+        <h1 className="text-3xl font-bold tracking-tight">الطلبات</h1>
         <Link href="/orders/new">
-          <Button><Plus className="mr-2 h-4 w-4" /> New Order</Button>
+          <Button><Plus className="ms-2 h-4 w-4" /> إنشاء طلب</Button>
         </Link>
       </div>
 
@@ -64,20 +64,20 @@ export default function Orders() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Order #</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Payment</TableHead>
-              <TableHead className="text-right">Total</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>طلب #</TableHead>
+              <TableHead>التاريخ</TableHead>
+              <TableHead>النوع</TableHead>
+              <TableHead>الحالة</TableHead>
+              <TableHead>الدفع</TableHead>
+              <TableHead className="text-right">الإجمالي</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Loading orders...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">جارٍ تحميل الطلبات...</TableCell></TableRow>
             ) : orders?.length === 0 ? (
-              <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No orders found</TableCell></TableRow>
+              <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">لا توجد طلبات</TableCell></TableRow>
             ) : (
               orders?.map((order) => (
                 <TableRow key={order.id}>
@@ -87,8 +87,8 @@ export default function Orders() {
                   <TableCell>{getStatusBadge(order.orderStatus)}</TableCell>
                   <TableCell>{order.paymentMethodName || "-"}</TableCell>
                   <TableCell className="text-right font-medium">{formatCurrency(order.total || 0)}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell>
+                    <div className="flex justify-start gap-2">
                       <Link href={`/orders/${order.id}`}>
                         <Button variant="outline" size="icon">
                           <Eye className="h-4 w-4" />

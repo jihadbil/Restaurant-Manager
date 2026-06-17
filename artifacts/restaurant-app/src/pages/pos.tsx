@@ -98,11 +98,11 @@ export default function PosPage() {
 
   const handlePlaceOrder = () => {
     if (cart.length === 0) {
-      toast({ title: "Cart is empty", variant: "destructive" });
+      toast({ title: "السلة فارغة", variant: "destructive" });
       return;
     }
     if (!paymentMethodId) {
-      toast({ title: "Select a payment method", variant: "destructive" });
+      toast({ title: "اختر طريقة دفع", variant: "destructive" });
       return;
     }
 
@@ -133,14 +133,14 @@ export default function PosPage() {
       },
       {
         onSuccess: (data: any) => {
-          toast({ title: "Order placed successfully!" });
+          toast({ title: "تم تقديم الطلب بنجاح!" });
           queryClient.invalidateQueries({ queryKey: getGetOrdersQueryKey() });
           setCart([]);
           setOrderNumber((prev) => (parseInt(prev, 10) + 1).toString());
           setLastCreatedOrder(data);
         },
         onError: () => {
-          toast({ title: "Failed to place order", variant: "destructive" });
+          toast({ title: "فشل تقديم الطلب", variant: "destructive" });
         },
       }
     );
@@ -149,14 +149,14 @@ export default function PosPage() {
   return (
     <div className="flex h-full min-h-[calc(100vh-6rem)] -m-6 md:-m-8 bg-background">
       {/* LEFT PANEL */}
-      <div className="w-[60%] flex flex-col border-r bg-muted/20">
+      <div className="w-[60%] flex flex-col border-l bg-muted/20">
         <div className="p-4 border-b space-y-4">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search products..."
-              className="pl-8 bg-background"
+              placeholder="ابحث عن منتج..."
+              className="pr-8 bg-background"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -165,16 +165,16 @@ export default function PosPage() {
             <div className="flex w-max space-x-2 pb-2">
               <Button
                 variant={activeCategory === "All" ? "default" : "outline"}
-                className="rounded-full"
+                className="rounded-full ms-2"
                 onClick={() => setActiveCategory("All")}
               >
-                All
+                الكل
               </Button>
               {categories.map((cat: any) => (
                 <Button
                   key={cat.id}
                   variant={activeCategory === cat.id?.toString() ? "default" : "outline"}
-                  className="rounded-full"
+                  className="rounded-full mx-1"
                   onClick={() => setActiveCategory(cat.id?.toString())}
                 >
                   {cat.name}
@@ -214,7 +214,7 @@ export default function PosPage() {
           {filteredProducts.length === 0 && (
             <div className="flex flex-col items-center justify-center h-40 text-muted-foreground">
               <Search className="h-8 w-8 mb-2 opacity-20" />
-              <p>No products found</p>
+              <p>لا توجد منتجات</p>
             </div>
           )}
         </ScrollArea>
@@ -224,17 +224,17 @@ export default function PosPage() {
       <div className="w-[40%] flex flex-col bg-card">
         <div className="p-4 border-b flex items-center justify-between">
           <h2 className="font-bold flex items-center">
-            <ShoppingCart className="mr-2 h-5 w-5" /> Current Order
+            <ShoppingCart className="ms-2 h-5 w-5" /> الطلب الحالي
           </h2>
           <Button variant="ghost" size="sm" onClick={() => setCart([])} className="text-muted-foreground h-8">
-            Clear
+            مسح
           </Button>
         </div>
 
         <div className="p-4 border-b space-y-4">
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 space-x-reverse">
             <div className="flex-1 space-y-1">
-              <Label className="text-xs">Order No.</Label>
+              <Label className="text-xs">رقم الطلب</Label>
               <Input 
                 value={orderNumber} 
                 onChange={(e) => setOrderNumber(e.target.value)} 
@@ -242,17 +242,21 @@ export default function PosPage() {
               />
             </div>
             <div className="flex-[2] space-y-1">
-              <Label className="text-xs">Type</Label>
+              <Label className="text-xs">النوع</Label>
               <div className="flex bg-muted rounded-md p-1">
-                {["DineIn", "Takeout", "Delivery"].map((t) => (
+                {[
+                  { value: "DineIn", label: "داخل" }, 
+                  { value: "Takeout", label: "خارج" }, 
+                  { value: "Delivery", label: "توصيل" }
+                ].map((t) => (
                   <button
-                    key={t}
-                    onClick={() => setOrderType(t)}
+                    key={t.value}
+                    onClick={() => setOrderType(t.value)}
                     className={`flex-1 text-xs py-1.5 rounded-sm transition-colors ${
-                      orderType === t ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50"
+                      orderType === t.value ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50"
                     }`}
                   >
-                    {t}
+                    {t.label}
                   </button>
                 ))}
               </div>
@@ -264,7 +268,7 @@ export default function PosPage() {
           {cart.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-muted-foreground">
               <ShoppingCart className="h-12 w-12 mb-4 opacity-10" />
-              <p>Cart is empty</p>
+              <p>السلة فارغة</p>
             </div>
           ) : (
             <div className="p-4 space-y-3">
@@ -278,9 +282,9 @@ export default function PosPage() {
                   </div>
                   <div className="flex justify-between items-center mt-auto">
                     <div className="text-sm text-muted-foreground">
-                      ${item.unitSalePrice.toFixed(2)} each
+                      ${item.unitSalePrice.toFixed(2)} للوحدة
                     </div>
-                    <div className="flex items-center space-x-2 bg-muted/50 rounded-md">
+                    <div className="flex items-center space-x-2 space-x-reverse bg-muted/50 rounded-md">
                       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => updateQuantity(item.productId, -1)}>
                         <Minus className="h-3 w-3" />
                       </Button>
@@ -303,12 +307,12 @@ export default function PosPage() {
         <div className="p-4 border-t bg-muted/10 space-y-4">
           <div className="space-y-1.5">
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Subtotal</span>
+              <span className="text-muted-foreground">المجموع الجزئي</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between items-center text-sm">
-              <span className="text-muted-foreground">Discount</span>
-              <div className="flex items-center space-x-1">
+              <span className="text-muted-foreground">الخصم</span>
+              <div className="flex items-center space-x-1 space-x-reverse">
                 <span className="text-muted-foreground">$</span>
                 <Input 
                   type="number" 
@@ -319,7 +323,7 @@ export default function PosPage() {
               </div>
             </div>
             <div className="flex justify-between font-bold text-lg pt-2 border-t mt-2">
-              <span>Total</span>
+              <span>الإجمالي</span>
               <span className="text-primary">${total.toFixed(2)}</span>
             </div>
           </div>
@@ -327,7 +331,7 @@ export default function PosPage() {
           <div className="space-y-2">
             <Select value={paymentMethodId} onValueChange={setPaymentMethodId}>
               <SelectTrigger>
-                <SelectValue placeholder="Select payment method" />
+                <SelectValue placeholder="اختر طريقة الدفع" />
               </SelectTrigger>
               <SelectContent>
                 {paymentMethods.map((pm: any) => (
@@ -340,9 +344,9 @@ export default function PosPage() {
               onClick={handlePlaceOrder}
               disabled={cart.length === 0 || createOrder.isPending}
             >
-              {createOrder.isPending ? "Processing..." : (
+              {createOrder.isPending ? "جارٍ المعالجة..." : (
                 <>
-                  <Check className="mr-2 h-5 w-5" /> Place Order
+                  <Check className="ms-2 h-5 w-5" /> تأكيد الطلب
                 </>
               )}
             </Button>
@@ -352,7 +356,7 @@ export default function PosPage() {
                 className="w-full h-10" 
                 onClick={() => printReceipt(lastCreatedOrder, 'customer')}
               >
-                Print Customer Receipt
+                طباعة وصل العميل
               </Button>
             )}
           </div>

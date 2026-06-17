@@ -20,8 +20,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ChefHat, Loader2 } from "lucide-react";
 
 const loginSchema = z.object({
-  userName: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
+  userName: z.string().min(1, "اسم المستخدم مطلوب"),
+  password: z.string().min(1, "كلمة المرور مطلوبة"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -51,11 +51,11 @@ export default function Login() {
             setAuth(res.token, res.user);
             setLocation("/");
           } else {
-            setErrorMsg(res.message || "Login failed");
+            setErrorMsg(res.message || "فشل تسجيل الدخول");
           }
         },
         onError: () => {
-          setErrorMsg("An error occurred during login. Please try again.");
+          setErrorMsg("حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى.");
         },
       }
     );
@@ -69,13 +69,13 @@ export default function Login() {
             <ChefHat className="h-6 w-6 text-primary" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Oven &amp; Scale</h1>
-          <p className="text-muted-foreground mt-2">Sign in to your restaurant dashboard</p>
+          <p className="text-muted-foreground mt-2">سجّل دخولك إلى لوحة التحكم</p>
         </div>
 
         <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>Enter your credentials to access the system</CardDescription>
+            <CardTitle>تسجيل الدخول</CardTitle>
+            <CardDescription>أدخل بيانات اعتمادك للوصول إلى النظام</CardDescription>
           </CardHeader>
           <CardContent>
             {errorMsg && (
@@ -91,9 +91,9 @@ export default function Login() {
                   name="userName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>اسم المستخدم</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter username" {...field} />
+                        <Input placeholder="أدخل اسم المستخدم" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -105,9 +105,9 @@ export default function Login() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>كلمة المرور</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Enter password" {...field} />
+                        <Input type="password" placeholder="أدخل كلمة المرور" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -120,18 +120,18 @@ export default function Login() {
                   disabled={loginMutation.isPending}
                 >
                   {loginMutation.isPending ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="ms-2 h-4 w-4 animate-spin" />
                   ) : null}
-                  Sign In
+                  دخول
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter className="flex justify-center border-t border-border pt-6">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
+              ليس لديك حساب؟{" "}
               <Link href="/register">
-                <span className="text-primary hover:underline cursor-pointer font-medium">Register here</span>
+                <span className="text-primary hover:underline cursor-pointer font-medium">سجّل هنا</span>
               </Link>
             </p>
           </CardFooter>

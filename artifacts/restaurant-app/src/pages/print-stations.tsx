@@ -13,7 +13,7 @@ import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const printStationSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
+  name: z.string().min(1, "الاسم مطلوب").max(100),
 });
 
 type PrintStationFormValues = z.infer<typeof printStationSchema>;
@@ -46,9 +46,9 @@ export default function PrintStations() {
         queryClient.invalidateQueries({ queryKey: getGetPrintStationsQueryKey() });
         setIsCreateOpen(false);
         form.reset();
-        toast({ title: "Print station created successfully" });
+        toast({ title: "تم إنشاء محطة الطباعة بنجاح" });
       },
-      onError: () => toast({ title: "Failed to create print station", variant: "destructive" })
+      onError: () => toast({ title: "فشل إنشاء محطة الطباعة", variant: "destructive" })
     });
   };
 
@@ -58,20 +58,20 @@ export default function PrintStations() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetPrintStationsQueryKey() });
         setEditingStation(null);
-        toast({ title: "Print station updated successfully" });
+        toast({ title: "تم تحديث محطة الطباعة بنجاح" });
       },
-      onError: () => toast({ title: "Failed to update print station", variant: "destructive" })
+      onError: () => toast({ title: "فشل تحديث محطة الطباعة", variant: "destructive" })
     });
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this print station?")) {
+    if (confirm("هل أنت متأكد من حذف محطة الطباعة هذه؟")) {
       deleteMutation.mutate({ id }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetPrintStationsQueryKey() });
-          toast({ title: "Print station deleted successfully" });
+          toast({ title: "تم حذف محطة الطباعة بنجاح" });
         },
-        onError: () => toast({ title: "Failed to delete print station", variant: "destructive" })
+        onError: () => toast({ title: "فشل حذف محطة الطباعة", variant: "destructive" })
       });
     }
   };
@@ -84,29 +84,29 @@ export default function PrintStations() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Print Stations</h1>
+        <h1 className="text-3xl font-bold tracking-tight">محطات الطباعة</h1>
         
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" /> Add Station</Button>
+            <Button><Plus className="ms-2 h-4 w-4" /> إضافة محطة</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Print Station</DialogTitle>
+              <DialogTitle>إنشاء محطة طباعة جديدة</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-4">
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl><Input placeholder="e.g. Kitchen, Bar, Front Desk" {...field} /></FormControl>
+                    <FormLabel>الاسم</FormLabel>
+                    <FormControl><Input placeholder="مثل: المطبخ، البار، الاستقبال" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <DialogFooter>
                   <Button type="submit" disabled={createMutation.isPending}>
-                    {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Create
+                    {createMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                    إنشاء
                   </Button>
                 </DialogFooter>
               </form>
@@ -119,23 +119,23 @@ export default function PrintStations() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead className="w-full">Name</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>الرقم</TableHead>
+              <TableHead className="w-full">الاسم</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">Loading print stations...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">جارٍ تحميل المحطات...</TableCell></TableRow>
             ) : stations?.length === 0 ? (
-              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">No print stations found</TableCell></TableRow>
+              <TableRow><TableCell colSpan={3} className="text-center py-8 text-muted-foreground">لا توجد محطات طباعة</TableCell></TableRow>
             ) : (
               stations?.map((station) => (
                 <TableRow key={station.id}>
                   <TableCell>{station.id}</TableCell>
                   <TableCell className="font-medium">{station.name}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell>
+                    <div className="flex justify-start gap-2">
                       <Button variant="outline" size="icon" onClick={() => openEditDialog({id: station.id!, name: station.name || ""})}>
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -154,21 +154,21 @@ export default function PrintStations() {
       <Dialog open={!!editingStation} onOpenChange={(open) => !open && setEditingStation(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Print Station</DialogTitle>
+            <DialogTitle>تعديل محطة الطباعة</DialogTitle>
           </DialogHeader>
           <Form {...editForm}>
             <form onSubmit={editForm.handleSubmit(handleEdit)} className="space-y-4">
               <FormField control={editForm.control} name="name" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl><Input placeholder="Station name" {...field} /></FormControl>
+                  <FormLabel>الاسم</FormLabel>
+                  <FormControl><Input placeholder="اسم المحطة" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <DialogFooter>
                 <Button type="submit" disabled={updateMutation.isPending}>
-                  {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Changes
+                  {updateMutation.isPending && <Loader2 className="ms-2 h-4 w-4 animate-spin" />}
+                  حفظ التغييرات
                 </Button>
               </DialogFooter>
             </form>
